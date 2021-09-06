@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - вход</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        form i {
+           margin-left: -30px;
+           cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/small-menu :: menu"></div>
+
+        <div style="height: 570px;">
+            <div class="autorization-block">
+                <div class="container-text-center photos-description__text__fio">
+                    <span>В связи с переходом на новую версию сайта Ваш пароль недействителен.
+                        Для получения нового пароля введите свой логин и нажмите ссылку «Забыли пароль?».
+                        Вам на почту будет выслан новый пароль
+                    </span>
+                </div>
+                <div class="b-indent_s_20"></div>
+                <div th:if="${hasError}" class="label-attrs-registration-new red-colored-linked-no-underline" style="text-align: center">Неверный логин или пароль</div>
+                <div th:if="${infoMessage != null}" th:text="${infoMessage}" class="label-attrs-registration-new red-colored-linked-no-underline" style="text-align: center" >Неверный логин или пароль</div>
+                <div class="b-indent_s_20"></div>
+                <form id="go" action="/login" method='POST' style="padding: 0 10px 5px 10px;">
+                    <div class="b-form">
+                        <label class="label-attrs-registration-new" style="width: 60px; margin-left: 220px;">Логин<a class="red-colored">*</a></label>
+                        <input class="b-form__input-registration" name='username' style="margin-left: 30px; width: 380px;">
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                    <div class="">
+                        <label class="label-attrs-registration-new" style="width: 60px; margin-left: 220px;">Пароль<a class="red-colored">*</a></label>
+                        <input id="password" type='password' name='password' class="b-form__input-registration"  style="margin-left: 23px; width: 380px;">
+                        <i class="fa fa-eye-slash  fa-lg" id="togglePassword"></i>
+                        <br>
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                    <div class="b-form">
+                        <label class="label-attrs-registration-new" style="width: 140px; margin-left: 320px;"><a href="/reset-password" class="red-colored-linked-no-underline">Забыли пароль?</a></label>
+                        <label class="label-attrs-registration-new" style="width: 140px;"><a href="/registration" class="red-colored-linked-no-underline">Регистрация</a></label>
+                    </div>
+                    <div class="b-indent_s_30"></div>
+                    <div class="b-flex">
+                        <a class="b-button-rgali" style="margin-left: 400px;">
+                            <div class="b-button__text" onclick="document.forms['go'].submit.click()" style="width: 80px; text-align: center;">Войти</div>
+                            <input style="display:none"  name="submit" type="submit" value="submit" />
+                        </a>
+                        <a class="b-button-rgali-grey" style="margin-left: 15px;">
+                            <div class="b-button__text-for-grey" onclick="location.href='/'" style="width: 80px; text-align: center;">Отмена</div>
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div class="b-indent_s_35"></div>
+        <div id="prefooter"></div>
+    </div>
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        if (this.classList.contains('fa-eye-slash')) {
+         this.classList.remove('fa-eye-slash');
+         this.classList.toggle('fa-eye');
+        }
+        else {
+            this.classList.remove('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        }
+    });
+    </script>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

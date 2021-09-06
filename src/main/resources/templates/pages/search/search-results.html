@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - список фондов</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/menu :: menu"></div>
+    </div>
+
+    <div class="b-indent_s_40"></div>
+    <div class="b-indent b-indent_s_10"></div>
+
+    <div class="b-table-button-return" style="min-height:500px">
+        <div class="b-indent b-indent_s_10"></div>
+        <div th:replace="fragments/back-button :: back-button(backUrl = '/search')" ></div>
+
+        <div class="fund_attribute">
+            Результаты поиска:
+                <li th:if="${searchForm.fundNumber} != ''" th:text="'№ фонда - ' + ${searchForm.fundNumber}"></li>
+                <li th:if="${searchForm.opisNumber} != ''" th:text="'№ описи - ' + ${searchForm.opisNumber}"></li>
+                <li th:if="${searchForm.storageUnitNumber} != ''" th:text="'№ единицы хранения - ' + ${searchForm.storageUnitNumber}"></li>
+                <li th:if="${searchForm.fondName} != ''" th:text="'Название - ' + ${searchForm.fondName}"></li>
+                <li th:if="${searchForm.personaName} != ''" th:text="'Персона - ' + ${searchForm.personaName}"></li>
+                <li th:if="${searchForm.organizationName} != ''" th:text="'Организация - ' + ${searchForm.organizationName}"></li>
+                <li th:if="${searchForm.yearDocumentFrom} != ''" th:text="'Год с - ' + ${searchForm.yearDocumentFrom}"></li>
+                <li th:if="${searchForm.yearDocumentTo} != ''" th:text="'Год по - ' + ${searchForm.yearDocumentTo}"></li>
+        </div>
+        <div class="b-indent b-indent_s_5"></div>
+        <div th:replace="fragments/search-results :: search-results" ></div>
+
+        <div class="b-indent_s_40"></div>
+    </div>
+    <script type="text/javascript">
+        function storageUnitSearch() {
+            $('#searchForm').attr('action', "/storage-unit/search").submit();
+        }
+
+        function fundSearch() {
+            $('#searchForm').attr('action', "/fund/search").submit();
+        }
+
+        function personSearch() {
+            $('#searchForm').attr('action', "/person/search").submit();
+        }
+
+        function organizationSearch() {
+            $('#searchForm').attr('action', "/organization/search").submit();
+        }
+    </script>
+
+    <form style="display:none" id="searchForm" action="#" th:action="@{/search}" th:object="${searchForm}" method="get">
+           <input type="text"  th:field="*{fundNumber}"/>
+           <input type="text"  th:field="*{opisNumber}"/>
+           <input type="text"  th:field="*{storageUnitNumber}"/>
+           <input type="text"  th:field="*{fondName}"/>
+           <input type="text"  th:field="*{personaName}"/>
+           <input type="text"  th:field="*{organizationName}"/>
+           <input type="text"  th:field="*{yearDocumentFrom}"/>
+           <input type="text"  th:field="*{yearDocumentTo}"/>
+           <input type="text"  th:field="*{simpleSearch}"/>
+           <input type="text" id="searchPersonId"  th:field="*{personId}"/>
+    </form>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

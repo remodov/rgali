@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!--    <script type="text/javascript" th:src="@{/js/jquery.fallingsnow.min.js}"></script>-->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+</head>
+<body id="snow">
+    <div class="wrapper">
+        <div class="header" layout:fragment="header"></div>
+        <main class="content">
+            <div class="b-indent_s_10"></div>
+            <div class="photos__wrap" th:replace="fragments/person-photos :: person-photos"></div>
+            <div class="b-indent_s_5"></div>
+        </main>
+        <div class="attention" th:if="${attention == null}" style="min-height: 2px;"></div>
+
+        <div class="attention" th:if="${attention != null}" style="max-height: 200px;">
+            <div class="attention__wrap-new" >
+                <div class="attention__body-new">
+                    <img class="img-bell" width="90" height="90" src="/images/ring.png">
+                    <a class="attention-text-new"  th:utext="${attention}">Уважаемые исследователи!<br>
+                        28 и 29 октября – санитарные дни.<br>
+                        С  1 по 7 ноября   читальные залы не работают, в связи с объявленными нерабочими днями.<br>
+                        Приносим извинения за временные неудобства, связанные с работой сайта.<br>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <main layout:fragment="content"></main>
+
+        <div id="prefooter"></div>
+
+<!--        <script>-->
+<!--            $.snowfall.start({-->
+<!--                content: '<i class="fa fa-snowflake-o"></i>',-->
+<!--                size: {-->
+<!--                    min: 20,-->
+<!--                    max: 50-->
+<!--                }-->
+<!--            }, $('#snow'));-->
+
+<!--        </script>-->
+
+        <div th:replace="fragments/footer :: footer" class="footer"></div>
+    </div>
+</body>
+</html>

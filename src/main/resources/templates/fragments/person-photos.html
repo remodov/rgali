@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>App Fragments</title>
+</head>
+<body>
+<div th:fragment="person-photos" class="photos__wrap">
+    <div class="photos__body">
+        <a class="b-button__arrow" onclick="prevPersonImage()">
+            <div class="b-button__icon_mod_arrow_left"></div>
+        </a>
+        <div class="photos__item" th:each="headerImage: ${headerImages}" >
+            <a th:href="'/person/' + ${headerImage.personId}">
+                <img width="90" style="object-fit: contain;" height="90"
+                     th:src="'/image/' + ${headerImage.imageId} + '/s'"/>
+            </a>
+            <div class="photos-description" style="width:98px; height:98px; font: bold 12px Roboto;">
+                <a class="photos-description__text__fio" th:id="'person-' + ${headerImage.personId}"
+                   th:href="'/person/' + ${headerImage.personId}"
+                   th:text="${headerImage.fio}">Эдельсон Евгений Николаевич</a>
+                <a class="photos-description__text__fund"
+                   th:href="'/fund/' + ${headerImage.fondId}"
+                   th:text="${headerImage.fnumFull}">Ф.2222</a></div>
+        </div>
+        <a class="b-button__arrow" onclick="nextPersonImage()">
+            <div class="b-button__icon_mod_arrow_right"></div>
+        </a>
+    </div>
+
+    <script language="javascript">
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value;
+        }
+
+        function getCookie(name) {
+             var nameEQ = name + "=";
+             var ca = document.cookie.split(';');
+             for (var i=0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+             }
+          return null;
+        }
+
+        function nextPersonImage() {
+            window.location.reload()
+        }
+
+        function prevPersonImage() {
+            var cookie = getCookie("image-header-offset") - 12
+            setCookie("image-header-offset", cookie)
+            window.location.reload()
+        }
+
+    </script>
+
+</div>
+
+
+</body>
+</html>

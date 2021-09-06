@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title th:text="'РГАЛИ - ' + ${title}">РГАЛИ - список фондов</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div class="b-indent_s_20"></div>
+        <div class="b-flex b-flex_valign_center title-no-indent" style="padding: 0 20px 20px 20px;">
+            <img width="50" th:src="'/image?path=' + ${iconPath}">
+            <a style="margin-left: 10px;" th:text="${title}">СТАТЬИ И ПУБЛИКАЦИИ СОТРУДНИКОВ РГАЛИ</a>
+        </div>
+        <div class="b-flex">
+            <select class="b-form__select" style="height: 30px; width: 300px; margin-left: 20px;" id="selectYears">
+                <option th:each="option : ${years.options}"
+                        th:value="${option.value}"
+                        th:selected="${option.selected}"
+                        th:text="${option.text}">все
+                </option>
+            </select>
+            <div class="b-flex b-flex_valign_center b-flex_align_between">
+                <a class="b-button-rgali" style="margin-left: 50px;" id="all_button">
+                    <div class="b-button__text" style="width: 100px; text-align: center;">Показать все</div>
+                </a>
+            </div>
+        </div>
+        <div class="b-stuff-articles-block">
+            <div th:each="articlesByYear : ${articleByYears}" class="article-text-justify-clear article-section" th:id="${articlesByYear.year}" >
+                <div class="title-date-text-colored">
+                    <a style="margin-left: 10px;"  th:text="${articlesByYear.year}">
+                        2019
+                    </a>
+                </div>
+                <th:block th:each="article: ${articlesByYear.articles}">
+                    <div class="b-indent_s_15"></div>
+                    <div>
+                        <a  th:utext="${article.text}">
+                            Волкова Н.Б.  «Коллектив меня принял». Воспоминания  о предвоенном детстве, военной юности и пути в         профессию / подгот.  Т. И. Бондаревой, З. К. Водопьяновой // Отечественные архивы. 2019. – № 3. – С. 88–104.
+                        </a>
+                    </div>
+                </th:block>
+                <div class="b-indent_s_15"></div>
+            </div>
+        </div>
+        <div style="height:150px;"></div>
+        <div class="b-indent_s_40"></div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#selectYears").change(function() {
+                if ($(this).val() != 'all') {
+                    $(".article-section").css("display", "none")
+                    $("#" + $(this).val() ).css("display", "block")
+
+                    $("#all_button").removeClass("b-button-rgali-disabled")
+                    $("#all_button").addClass("b-button-rgali")
+                }
+            });
+
+            $("#all_button").click(function() {
+                $(".article-section").css("display", "block")
+                $("#all_button").removeClass("b-button-rgali")
+                $("#all_button").addClass("b-button-rgali-disabled")
+                $("#selectYears").val("all");
+            });
+
+            $("#selectYears").val("all");
+            $("#all_button").removeClass("b-button-rgali")
+            $("#all_button").addClass("b-button-rgali-disabled")
+        });
+        </script>
+
+</main>
+
+</body>
+</html>

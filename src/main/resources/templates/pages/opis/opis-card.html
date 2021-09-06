@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - карточка описи</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/menu :: menu"></div>
+    </div>
+
+    <div class="b-indent_s_40"></div>
+    <div class="b-indent b-indent_s_10"></div>
+
+    <div class="b-table-button-return">
+        <div class="b-indent b-indent_s_10"></div>
+        <div th:replace="fragments/back-button :: back-button(backUrl = '/opis')" ></div>
+
+        <div class="b-table b-table_mod_border">
+            <div class="b-table__wrap">
+                <table class="b-table__table" style="width: 930px;">
+                    <tbody class="b-table__body">
+                    <tr class="b-table__row">
+                        <td class="b-table__cell b-table__cell_align_center" style="width:50px">
+                            <p class="b-table__text"><a th:text="${model.fund.displayFondNumber}" th:href="'/opis?fundId=' + ${model.fund.id}" class="blue-linked">Ф.10</a></p>
+                        </td>
+                        <td class="b-table__cell" style="width:300px">
+                            <p th:text="${model.fund.fullFondName}" class="b-table__text">Аксаковы: Сергей Тимофеевич (1791-1859) - писатель; его сыновья:
+                                Константин Сергеевич (1817-1860) - поэт, публицист; Григорий Сергеевич (1820-1891) -
+                                сибирский губернатор; Иван Сергеевич (1823-1886) - поэт, публицист.</p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center" style="width:150px">
+                            <p th:text="${model.fund.extremeDates}" class="b-table__text">1739 - 1915 гг.</p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center" style="width:100px">
+                            <p class="b-table__text"><a th:text="${model.fund.units}" th:href="'/storage-unit?fundId=' + ${model.fund.id}" class="blue-linked">721</a></p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center" style="width:50px">
+                            <p class="b-table__text"></p><a th:href="'/fund/' + ${model.fund.id}" class="context-menu__toggle"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="content-inf-opis-card">
+            <div class="opis-list">
+                <a th:text="${model.opis.displayFullNum}" class="blue-linked-bold">ф.10 оп.1</a>
+            </div>
+        </div>
+        <div class="b-flex b-content-inf-opis-card">
+            <div class="b-content-inf-opis-card-inf"><div class="fund-inf_title">СВЕДЕНИЯ</div>
+                <div>
+                    <label class="fund_attribute">Номер фонда:</label>
+                    <a th:text="${model.fund.fondNumber}" th:href="'/fund/' + ${model.fund.id}" class="fund_attribute-value blue-linked">10</a>
+                </div>
+                <div>
+                    <label class="fund_attribute">Количество единиц хранения:</label>
+                    <a th:text="${model.opis.units}" th:href="'/storage-unit?fundId=' + ${model.fund.id} + '&opisId=' +  ${model.opis.id}" class="fund_attribute-value blue-linked">260</a>
+                </div>
+                <div>
+                    <label class="fund_attribute">Крайние даты документов:</label>
+                    <a th:text="${model.opis.dates}" class="fund_attribute-value">1739-1894</a>
+                </div>
+            </div>
+        </div>
+        <div class="b-indent_s_40"></div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

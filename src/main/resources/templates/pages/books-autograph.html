@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - книги</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/storage-unit-list.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/menu :: menu"></div>
+    </div>
+
+    <div class="docs-rarities">
+        <div class="article-title-no-indent">
+            <a>КНИГИ С АВТОГРАФАМИ</a>
+        </div>
+        <div class="b-indent_s_20"></div>
+        <div class="b-flex ">
+            <div class="b-flex">
+                <div style="width: 100px;"><a class="filter-text">Выводить по:</a></div>
+                <select id="pagesPerPage" class="b-form__select_bold" style="height: 28px; width: 70px; margin-top: -5px;">
+                    <option th:each="option : ${selectPage.options}"
+                            th:value="${option.value}"
+                            th:selected="${option.selected}"
+                            th:text="${option.text}">20
+                    </option>
+                </select>
+            </div>
+            <div class="b-flex">
+                <div style="width: 100px;  margin-left: 15px;"><a class="filter-text">Сортировать:</a></div>
+                <select id="selectWithSort" class="b-form__select_bold"
+                        style="height: 28px; width: 200px; margin-top: -5px;">
+                    <option th:each="option : ${selectWithSort.options}"
+                            th:value="${option.value}"
+                            th:selected="${option.selected}"
+                            th:text="${option.text}">номер фонда
+                    </option>
+                </select>
+            </div>
+            <div class="b-indent_s_20"></div>
+            <div th:if="${model.page.totalPages > 0}">
+                <a class="filter-text filter-text-all"
+                   th:text="'Всего книг: ' + ${ ((model.page.currentPage - 1) * model.page.rowsPerPage) + 1}  + ' - ' + ${(model.page.currentPage) * model.page.rowsPerPage} + ' из ' + ${model.page.totalRows} ">Всего
+                    фондов: 1-10 из 954</a>
+            </div>
+        </div>
+
+        <div class="b-indent_s_15"></div>
+
+        <div class="b-flex" style="margin-top: -5px;">
+            <input id="searchDocument" th:value="${searchDocument}" class="b-form__input autographed-books-input" style="width: 568px;" placeholder="Поиск по библиографическому описанию">
+            <div style="margin-left: 15px;">
+                <a class="b-button-rgali-search" id="searchButton">
+                    <div class="b-button__icon b-button__icon_mod_search_rgali"></div>
+                    <div class="b-button__text">Поиск</div></a>
+            </div>
+            <div style="margin-left: 10px;">
+                <a class="b-button-rgali-search" id="clearButton">
+                    <div class="b-button__icon b-button__icon_mod_remove_rgali"></div>
+                    <div class="b-button__text">Очистить</div></a>
+            </div>
+        </div>
+
+        <div class="b-indent_s_20"></div>
+
+        <div style="min-height:500px">
+            <div class="b-table b-table_mod_border ">
+                <div class="b-table__wrap">
+                    <table class="b-table__table" >
+                        <thead class="b-table__head">
+                        <tr class="b-table__row">
+                            <td class="b-table__cell" style="width:150px">
+                                <p class="b-table__text">Инвентарный номер</p>
+                            </td>
+                            <td class="b-table__cell" style="width:50px">
+                                <p class="b-table__text">Литера</p>
+                            </td>
+                            <td class="b-table__cell" style="width:680px">
+                                <p class="b-table__text">Библиографическое описание</p>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody class="b-table__body">
+                        <tr th:each="book : ${model.pages}" class="b-table__row">
+                            <td class="b-table__cell">
+                                <p class="b-table__text" th:text="${book.invNumber}">33185/285</p>
+                            </td>
+                            <td class="b-table__cell b-table__cell_align_center">
+                                <p class="b-table__text" th:text="${book.name}">a</p>
+                            </td>
+                            <td class="b-table__cell">
+                                <p class="b-table__text" th:text="${book.author}">
+                                    Горький М.<br>
+                                    Сочинения. Том 6. Пьесы.<br>
+                                    / М. Горький. - [2-е изд., 6-я тыс.]. - Санкт-Петербург : Знание, 1903. - [4], 286 с. ; 20 см. - ([Сочинения] ; Т. 6)<br>
+                                    Д.н.
+                                </p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="paginator">
+            <div class="b-pagination">
+                <div class="b-pagination__body"></a>
+                    <a class="b-pagination__prev"></a>
+
+                    <span class="b-pagination__title">Страницы:</span>
+
+                    <th:block th:each="i: ${#numbers.sequence(model.page.firstVisiblePage, model.page.lastVisiblePage) }">
+                        <th:block th:if="${model.page.currentPage != i}">
+                            <a th:text="${i}" class="b-pagination__item">2</a>
+                        </th:block>
+                        <th:block th:if="${model.page.currentPage == i}">
+                            <a class="b-pagination__item b-pagination__item_state_active" th:text="${model.page.currentPage}">1</a>
+                        </th:block>
+                    </th:block>
+
+                    <div class="b-pagination__item2">&hellip;</div>
+
+                    <a class="b-pagination__item" th:text="${model.page.totalPages}">96</a>
+
+                    <span class="b-pagination__count" th:text="'Записей: ' + ${model.page.totalRows}">Записей: 954</span>
+
+                    <a class="b-pagination__next"></a>
+                </div>
+            </div>
+        </div>
+        <div id="prefooter"></div>
+        <div style="display:none" id="currentPage" th:text="${model.page.currentPage}"></div>
+        <div style="display:none" id="nextPage" th:text="${model.page.nextPage}"></div>
+        <div style="display:none" id="previousPage" th:text="${model.page.previousPage}"></div>
+    </div>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+          $("#pagesPerPage").change(function() {
+             $("#currentPage").html("1");
+             changePage()
+          });
+
+          $("#selectWithSort").change(function() {
+             $("#currentPage").html("1");
+             changePage()
+          });
+
+          $(".b-pagination__item").click(function() {
+             $("#currentPage").html($(this).text());
+             changePage()
+          });
+
+          $(".b-pagination__prev").click(function() {
+             $("#currentPage").html($("#previousPage").text());
+             changePage()
+          });
+
+          $(".b-pagination__next").click(function() {
+             $("#currentPage").html($("#nextPage").text());
+             changePage()
+          });
+
+          $("#searchButton").click(function() {
+             changePage()
+          });
+
+          $("#clearButton").click(function() {
+              $('#searchDocument').val("")
+          });
+
+    });
+
+    function changePage() {
+           var link = '/books-autograph?searchDocument=' + $("#searchDocument").val() + '&fieldForSort=' +  $("#selectWithSort").val() + '&elementsOnPage=' + $("#pagesPerPage").val() + '&currentPage=' + $("#currentPage").text()
+           location.href = link
+    }
+    </script>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - персона</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/menu :: menu"></div>
+    </div>
+
+    <div class="b-indent_s_40"></div>
+    <div class="b-indent b-indent_s_10"></div>
+
+    <div class="b-table-button-return">
+        <div class="b-indent b-indent_s_10"></div>
+        <div th:replace="fragments/back-button :: back-button(backUrl = '/search')" ></div>
+
+        <div class="fund_attribute">
+            <a>Персоны</a>
+        </div>
+        <div class="b-indent b-indent_s_5"></div>
+        <div class="b-table b-table_mod_border" >
+            <div class="b-table__wrap">
+                <table class="b-table__table">
+                    <thead class="b-table__head">
+                    <tr class="b-table__row">
+                        <td class="b-table__cell" style="width:300px">
+                            <p class="b-table__text">ФИО персоны</p>
+                        </td>
+                        <td class="b-table__cell" style="width:100px">
+                            <p class="b-table__text">Кол-во фондов (фондо-<br>образователь)</p>
+                        </td>
+                        <td class="b-table__cell" style="width:100px">
+                            <p class="b-table__text">Кол-во ед.хр. (автор)</p>
+                        </td>
+                        <td class="b-table__cell" style="width:100px">
+                            <p class="b-table__text">Кол-во ед.хр. (персона)</p>
+                        </td>
+                        <td class="b-table__cell" style="width:30px">
+                            <p class="b-table__text">Детальный просмотр</p>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="b-table__body">
+                    <tr class="b-table__row">
+                        <td class="b-table__cell">
+                            <p class="b-table__text" th:text="${model.fio}">Чернышевский Николай Гаврилович</p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p class="b-table__text"><a class="blue-linked"  href="#" onclick="fundSearch()"  th:text="${searchResultCounts.totalUnits}">0</a></p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p class="b-table__text blue-linked"><a class="blue-linked" href="#" onclick="storageUnitSearch(2)" th:text="${searchResultCounts.totalPersons}">0</a></p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p class="b-table__text blue-linked"><a class="blue-linked" href="#" onclick="storageUnitSearch(1)" th:text="${searchResultCounts.totalDeals}">0</a></p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p class="b-table__text"></p><a class="context-menu__toggle"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="b-flex b-content-full-length"  style="min-height:300px">
+            <div class="b-content-inf-full-length"><div class="fund-inf_title">СВЕДЕНИЯ</div>
+                <div>
+                    <label class="fund_attribute">ФИО:</label>
+                    <a class="fund_attribute-value" th:text="${model.fio}">Чернышевский Николай Гаврилович</a>
+                </div>
+                <div>
+                    <label class="fund_attribute">Годы жизни:</label>
+                    <a class="fund_attribute-value" th:text="${model.years}">1828-1889</a>
+                </div>
+                <div>
+                    <label class="fund_attribute">Биографическая справка:</label>
+                    <a class="fund_attribute-value" th:text="${model.annotation}">революционер-демократ, критик, публицист и писатель</a>
+                </div>
+            </div>
+        </div>
+
+        <form style="display:none" id="searchForm" action="#" th:action="@{/search}" th:object="${searchForm}" method="get">
+            <input type="text"  th:field="*{fundNumber}"/>
+            <input type="text"  th:field="*{opisNumber}"/>
+            <input type="text"  th:field="*{storageUnitNumber}"/>
+            <input type="text" id="organizationFondName"  th:field="*{fondName}"/>
+            <input type="text"  th:field="*{personaName}"/>
+            <input type="text" id="organizationNameFormPersonType"  th:field="*{organizationName}"/>
+            <input type="text"  th:field="*{yearDocumentFrom}"/>
+            <input type="text"  th:field="*{yearDocumentTo}"/>
+            <input type="text" id="searchFormPersonType"  th:field="*{personType}"/>
+            <input type="text" id="searchFondType"  th:field="*{fondType}"/>
+        </form>
+
+        <div class="b-indent_s_40"></div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+    <script type="text/javascript">
+        function setSelectedPerson(elem) {
+             $('#searchPersonaName').val(elem)
+        }
+
+        function storageUnitSearch(personType) {
+             $('#currentPageField').val("1")
+             $('#elementsOnPageField').val("20")
+
+             if (personType !== undefined) {
+                 $('#searchFormPersonType').val(personType)
+                 $('#organizationFondName').val("")
+                 $('#organizationNameFormPersonType').val("")
+             }
+             $('#fieldForSortField').val("")
+
+            $('#searchForm').attr('action', "/storage-unit/search").submit();
+        }
+
+        function fundSearch() {
+            $('#currentPageField').val("1")
+            $('#elementsOnPageField').val("20")
+            $('#organizationFondName').val("")
+            $('#organizationNameFormPersonType').val("")
+            $('#fieldForSortField').val("")
+            $('#searchFondType').val("1")
+
+            $('#searchForm').attr('action', "/fund/search").submit();
+        }
+
+        function personSearch() {
+            $('#searchForm').attr('action', "/person/search").submit();
+        }
+    </script>
+</main>
+
+</body>
+</html>

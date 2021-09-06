@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - корзина</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/storage-unit-list.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+          integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+            integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        form i {
+           margin-left: -30px;
+           cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div class="content">
+            <div class="b-indent_s_20"></div>
+            <div class="article-title">
+                <a>Личный кабинет</a>
+            </div>
+            <div class="b-indent_s_30"></div>
+            <div class="tabs tabs-color">
+                <input type="radio" name="tab-btn" id="tab-btn-1" value="" disabled="">
+                <label onclick="location.href='/cabinet/user-info'" for="tab-btn-1">Данные пользователя</label>
+                <input type="radio" name="tab-btn" id="tab-btn-2" value="" disabled="">
+                <label onclick="location.href='/cabinet/change-password'" for="tab-btn-2">Смена пароля</label>
+                <input type="radio" name="tab-btn" id="tab-btn-3" value="" checked="">
+                <label onclick="location.href='/cabinet/requirements'" for="tab-btn-3">Требования</label>
+                <div id="content-1"></div>
+                <div id="content-2"></div>
+                <div id="content-3">
+                    <div class="tab-title">
+                        <a>Создание требований из корзины</a>
+                    </div>
+                    <form id="askForm" name="askForm"  action="#" method="post">
+                        <div class="b-indent_s_10"></div>
+                        <div class="b-flex b-flex_align_between">
+                            <div><a class="b-button-rgali-return" onclick="location.href='/cabinet/requirements'">
+                                <div class="b-button__icon b-button__icon_mod_return_rgali"></div>
+                                <div class="b-button__text">Вернуться</div>
+                            </a>
+                                <div class="b-indent_s_10"></div>
+                            </div>
+                        </div>
+                        <div class="b-indent_s_10"></div>
+                        <div id="infoMessage"  class="label-attrs-registration-new red-colored-linked-no-underline" style="color:red; margin-left: 500px;" ></div>
+                        <div class="b-form">
+                            <label class="label-attrs-requirement">Дата подачи требования</label>
+                            <div class="b-form">
+                                <input class="input-attrs-requirement" th:value="${askForm.requestDate}" readonly required id="requestDate" type="text"
+                                       style="width:155px">
+                            </div>
+                            <label class="label-attrs-requirement" style="margin-left: 40px;">Требуемая дата выдачи</label>
+                            <div class="b-form">
+                                <input class="input-attrs-requirement" required id="askDate" th:value="${askForm.askDate}" type="text" style="width:155px">
+                            </div>
+                            <label class="label-attrs-requirement1" style="margin-left: 40px; width:160px;">Цель занятий</label>
+                            <select id="selectPurposeResearch" style="width: 1010px; height: 28px;">
+                                <option th:if="${goal != null && goal.text != null}" selected th:text="${goal.text}" th:value="${goal.id}"></option>
+                            </select>
+                        </div>
+                        <div class="b-indent_s_10"></div>
+
+                        <div class="b-indent_s_10"></div>
+                        <div class="">
+                            <label class="label-attrs-requirement" style="width:110px;">Темы работы</label>
+                            <select id="selectResearchTheme" required style="width: 1010px; height: 28px;">
+                                <option th:if="${researchTheme != null && researchTheme.text != null}" selected th:text="${researchTheme.text}" th:value="${researchTheme.id}"></option>
+                            </select>
+                        </div>
+                    </form>
+                    <div>
+                        <div class="b-indent_s_10"></div>
+                        <div class="b-flex">
+                            <div style="margin-left: 915px;">
+                                <a class="b-button-rgali" onclick="createActs()">
+                                    <div class="b-button__text">Создать</div>
+                                </a>
+                            </div>
+                            <div style="margin-left: 19px;">
+                                <a class="b-button-rgali" onclick="deleteActs()">
+                                    <div class="b-button__text">Удалить</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="b-indent_s_10"></div>
+                        <div class="b-table b-table_mod_border b-table-recycle">
+                            <div class="b-table__wrap">
+                                <table class="b-table__table" style="width: 1165px;">
+                                    <thead class="b-table__head">
+                                    <tr class="b-table__row">
+                                        <td class="b-table__cell" style="width:150px">
+                                            <p class="b-table__text">Архивный шифр</p>
+                                        </td>
+                                        <td class="b-table__cell" style="width:175px">
+                                            <p class="b-table__text">Заголовок ед. хр.</p>
+                                        </td>
+                                        <td class="b-table__cell" style="width:70px">
+                                            <p class="b-table__text">Количество листов</p>
+                                        </td>
+                                        <td class="b-table__cell" style="width:70px">
+                                            <p class="b-table__text">Поток</p>
+                                        </td>
+                                        <td class="b-table__cell" style="width:50px;">
+                                            <div class="b-form__checkbox"
+                                                 style="width:10px;height:12px; margin-bottom: 9px;">
+                                                <input class="b-form__checkbox-input" id="ch1" type="checkbox">
+                                                <label class="b-form__checkbox-label" for="ch1"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="b-table__body">
+                                    <tr class="b-table__row" th:each="ask : ${asks}">
+                                        <td class="b-table__cell">
+                                            <p class="b-table__text" th:text="${ask.cypher}">Ф.613 оп.10 ед.хр.6827</p>
+                                        </td>
+                                        <td class="b-table__cell">
+                                            <p class="b-table__text" th:text="${ask.headerDoc}">Письмо Т.С. Аксакова к
+                                                жене</p>
+                                        </td>
+                                        <td class="b-table__cell b-table__cell_align_center">
+                                            <p class="b-table__text" th:text="${ask.numLists}"></p>
+                                        </td>
+                                        <td class="b-table__cell b-table__cell_align_center">
+                                            <p class="b-table__text" th:text="${ask.warehouseName}"></p>
+                                        </td>
+                                        <td class="b-table__cell b-table__cell_align_center">
+                                            <div class="b-form__checkbox"
+                                                 style="width:10px;height:12px; margin-bottom: 5px;">
+                                                <input class="b-form__checkbox-input" th:id="${ask.id}" type="checkbox">
+                                                <label class="b-form__checkbox-label" th:for="${ask.id}"></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="b-indent_s_10"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="b-indent_s_10"></div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+    <script type="text/javascript">
+
+    function checkAskDate() {
+          $.get("/api/v1/check-ask-date?date=" + $('#askDate').val(), function( data ) {
+                    if (data.id == "true") {
+                        $('#infoMessage').text("")
+                    }
+                    else {
+                       $('#askDate').val("")
+                       $('#infoMessage').text(data.text)
+                     }
+          });
+    }
+
+    $(document).ready(function() {
+        $('#askDate').click(function() {
+                if ($( this ).attr("type") == "text") {
+                    $( this ).attr("type", "date")
+                }
+            });
+
+          checkAskDate()
+
+          $("#askDate").focusout(function() {
+              checkAskDate()
+          });
+
+        $('#selectPurposeResearch').select2({
+             width: '520px',
+             ajax: {
+                url: '/api/v1/purpose-research',
+                dataType: 'json',
+                params: {
+                  method: 'get'
+                },
+                processResults: function (data) {
+                      return {
+                        results: data
+                      };
+                }
+              }
+           });
+
+        $('#selectResearchTheme').select2({
+             width: '520px',
+             allowClear: true,
+             tags: true,
+             ajax: {
+                url: '/api/v1/research-theme',
+                dataType: 'json',
+                params: {
+                  method: 'get'
+                },
+                processResults: function (data) {
+                      return {
+                        results: data
+                      };
+                }
+              }
+           });
+
+        $("#ch1").click(function() {
+           $("input[type=checkbox]").each(function() {
+               $(this).prop("checked", $("#ch1").prop("checked") );
+            })
+        });
+
+            $("#askForm").on("submit", function(){
+                createActs()
+               return false;
+             })
+    });
+
+    function deleteActs() {
+        $("tr input[type=checkbox]").each(function() {
+           if ($(this).prop("checked")) {
+                if (this.id != 'ch1') {
+                    $.post("/api/v1/recycle/" + this.id, function( data ) {
+                          location.href='/cabinet/recycle'
+                    });
+                }
+            }
+         })
+
+    }
+
+    function createActs() {
+
+       if (!$('#askForm')[0].checkValidity()) {
+           $('#askForm')[0].reportValidity()
+           return;
+       }
+
+       var data = {
+            "requestDate" : $("#requestDate").val(),
+            "askDate" : $("#askDate").val(),
+            "goalId" : $("#selectPurposeResearch").val(),
+            "themeId" : $("#selectResearchTheme").val(),
+            "askIds" : []
+         };
+
+       jQuery.ajaxSetup({async:false});
+
+       $("tr input[type=checkbox]").each(function() {
+             if ($(this).prop("checked")) {
+               if (this.id != 'ch1') {
+                    $.get("/api/v1/recycle/correct/" + this.id, function( rs ) {
+                        if (rs.length > 0) {
+                           $("#infoMessage").text(rs)
+                        }
+                    });
+
+                    if ($("#infoMessage").text().length == 0) {
+                        data.askIds.push(this.id)
+                    }
+               }
+             }
+        })
+
+       jQuery.ajaxSetup({async:true});
+
+       if ($("#infoMessage").text().length > 0) {
+            return;
+       }
+
+       if (data.askIds.length == 0) {
+            $("#infoMessage").text('Вы не выбрали единицу хранения!')
+            return;
+       }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/v1/recycle/requirements",
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(r) {
+                location.href='/cabinet/requirements'
+            }
+        });
+    }
+    </script>
+
+</main>
+
+</body>
+</html>

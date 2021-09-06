@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title th:text="'РГАЛИ - ' + ${title}">РГАЛИ - список фондов</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/storage-unit-list.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Remember to include jQuery :) -->
+
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <style>
+        .b-guided-tours-text-content {
+            margin-left: 20px;
+        }
+        .tours-block {
+            width: 935px;
+            margin-top: -480px;
+            margin-left: 5px;
+            height: 550px;
+        }
+        .article-text-justify-no-indents-guided-tours {
+            font: normal 14px/1.15 Roboto;
+            color: #212121;
+            text-align: justify;
+            width: 500px;
+        }
+        .content__item {
+            z-index: 1;
+        }
+        .content__item_title {
+            z-index: 1;
+        }
+
+        .modal {
+            max-width: 700px;
+        }
+
+        .modal a.close-modal {
+            display: none;
+        }
+
+        .label-attrs-feedback {
+            font: bold 16px Roboto;
+            color: #212121;
+            margin: 0 5px 0 0px;
+            width: 105px;
+        }
+        .input-attrs-feedback {
+            font: normal 14px/1.15 Roboto;
+            box-sizing: border-box;
+            height: 28px;
+            padding: 0 7px;
+            transition: all .3s ease;
+            color: #212121;
+            border: 1px solid #adb3c4;
+            border-radius: 2px;
+            outline: 0;
+            width: 500px;
+        }
+
+        .label-attrs-feedback-red {
+            font: normal 16px Roboto;
+            color: #be1e2d;
+            margin: -12px 0 0 3px;
+        }
+
+        .article-title-center {
+            font: bold 16px PlayfairDisplay;
+            text-align: center;
+            color: #212121;
+        }
+
+        .subtitle-text-feedback {
+            font: normal 14px/1.15 Roboto;
+            font-style: italic;
+            margin-left: 110px;
+        }
+    </style>
+
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div th:replace="fragments/small-menu :: menu"></div>
+
+    <div class="tours-block">
+        <div class="b-indent_s_20"></div>
+        <div style="padding: 0 20px 0 20px;">
+            <div class="b-flex b-flex_valign_center title-no-indent">
+                <img width="50" th:src="'/image?path=' + ${iconPath}">
+                <a style="margin-left: 10px;" th:text="${title}">ЭКСКУРСИИ</a>
+            </div>
+        </div>
+        <div class="b-indent_s_20"></div>
+        <div class="b-flex" th:each="page: ${pages}">
+            <div>
+                <img width="400" th:src="'/image/' + ${page.images[0].imageId}+ '/n'" style="margin-left: 20px;">
+            </div>
+            <div>
+                <div class="b-guided-tours-text-content">
+                    <div class="article-text-justify-no-indents-guided-tours" th:utext="${page.text}">
+                    </div>
+                    <div style="text-align: right;">
+                        <a class="b-button-rgali" id="open"  href="#ex1" style="text-decoration: none" rel="modal:open">
+                            <div class="b-button__text" style="width: 140px; text-align: center; text-decoration: none;">Заказать экскурсию</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ex1" class="modal">
+        <div>
+            <div class="feedback-block">
+                <form id="tour" style="padding: 0 10px 5px 10px;" th:action="@{/tour}" th:object="${tourForm}" method="post">
+                    <div class="b-flex b-flex_align_right">
+                        <a class="b-button-rgali" rel="modal:close" style="text-decoration: none"  href="#">
+                            <div class="b-button__text" style="text-decoration: none; width: 10px; text-align: center;">X</div>
+                        </a>
+                    </div>
+                    <div class="article-title-center">
+                        <a>ФОРМА ОБРАТНОЙ СВЯЗИ</a>
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                    <div style="text-align: center;">
+                        <a>Оставьте Ваши данные и мы свяжемся с Вами</a>
+                    </div>
+                    <div class="b-indent_s_25"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">Имя</label>
+                        <input required class="input-attrs-feedback" th:field="*{name}">
+                        <label class="label-attrs-feedback-red">*</label>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">E-mail</label>
+                        <input required class="input-attrs-feedback" type="email" th:field="*{email}">
+                        <label class="label-attrs-feedback-red">*</label>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">Телефон</label>
+                        <input required class="input-attrs-feedback" minlength="11" maxlength="11" type="tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="81111111111" pattern="[8]{1}[0-9]{10}" th:field="*{phone}">
+                        <label class="label-attrs-feedback-red">*</label>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">Тема</label>
+                        <select id="theme" required class="b-form__select" th:field="*{theme}" style="width: 500px; height: 30px;">
+                            <option value="Заказать экскурсию">Заказать экскурсию</option>
+                            <option value="Сообщить о фактах коррупции">Сообщить о фактах коррупции</option>
+                            <option value="Другое">Другое</option>
+                        </select>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form b-form_align_top">
+                        <label class="b-form__label_align_right label-attrs-feedback">Сообщение</label>
+                        <textarea required class="b-form__area" th:field="*{message}" style="height:92px;width: 500px;"></textarea>
+                        <label class="label-attrs-feedback-red-area">*</label>
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                    <div class="subtitle-text-feedback">
+                        <label class="label-attrs-feedback-red-no-left-indent">*</label>
+                        <a>Поля обязательные для заполнения</a>
+                    </div>
+                    <div class="b-indent_s_20"></div>
+                    <div class="b-flex b-flex_align_center">
+                        <a class="b-button-rgali">
+                            <div onclick="document.getElementById('send').click()" class="b-button__text" style="width: 100px; text-align: center;">ОТПРАВИТЬ</div>
+                        </a>
+                    </div>
+                    <input id="send" type="submit" style="display: none"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="b-indent_s_40"></div>
+
+    <div id="prefooter"></div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

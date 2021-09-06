@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="search-results">
+
+    <div class="b-table b-table_mod_border">
+        <div class="b-table__wrap">
+            <table class="b-table__table">
+                <thead class="b-table__head">
+                <tr class="b-table__row">
+                    <td class="b-table__cell" style="width:150px">
+                        <p class="b-table__text">Количество фондов</p>
+                    </td>
+                    <td class="b-table__cell" style="width:150px">
+                        <p class="b-table__text">Количество единиц хранения</p>
+                    </td>
+                    <td class="b-table__cell" style="width:150px">
+                        <p class="b-table__text">Количество листов</p>
+                    </td>
+                    <td class="b-table__cell" style="width:150px">
+                        <p class="b-table__text">Количество персон</p>
+                    </td>
+                    <td class="b-table__cell" style="width:150px">
+                        <p class="b-table__text">Количество организаций</p>
+                    </td>
+                </tr>
+                </thead>
+                <tbody class="b-table__body">
+                <tr class="b-table__row">
+                    <td class="b-table__cell b-table__cell_align_center">
+                        <p th:if="${searchResultCounts.totalUnits > 0}" class="b-table__text">
+                            <a href="#" onclick="fundSearch()" th:text="${searchResultCounts.totalUnits}" class="blue-linked">0</a>
+                        </p>
+                        <p th:if="${searchResultCounts.totalUnits == 0}" class="b-table__text">0</p>
+                    </td>
+                    <td class="b-table__cell b-table__cell_align_center">
+                        <p th:if="${searchResultCounts.totalDeals > 0}" class="b-table__text"><a href="#" onclick="storageUnitSearch()"
+                                                    th:text="${searchResultCounts.totalDeals}" class="blue-linked">0</a>
+                        </p>
+                        <p th:if="${searchResultCounts.totalDeals == 0}" class="b-table__text">0</p>
+                    </td>
+                    <td class="b-table__cell b-table__cell_align_center">
+                        <p class="b-table__text">0</p>
+                    </td>
+                    <td class="b-table__cell b-table__cell_align_center">
+                        <p th:if="${searchResultCounts.totalPersons > 0}" class="b-table__text"><a href="#" onclick="personSearch()"
+                                                    th:text="${searchResultCounts.totalPersons}"
+                                                    class="blue-linked">0</a></p>
+                        <p th:if="${searchResultCounts.totalPersons == 0}" class="b-table__text">0</p>
+                    </td>
+                    <td class="b-table__cell b-table__cell_align_center">
+                        <p  th:if="${searchResultCounts.totalOrganizations >0}" class="b-table__text"><a href="#" onclick="organizationSearch()"
+                                                    th:text="${searchResultCounts.totalOrganizations}"
+                                                    class="blue-linked">0</a></p>
+                        <p th:if="${searchResultCounts.totalOrganizations == 0}" class="b-table__text">0</p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

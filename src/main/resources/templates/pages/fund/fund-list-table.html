@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - список фондов</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/storage-unit-list.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/menu :: menu"></div>
+    </div>
+
+    <div class="b-table-button-return">
+        <div class="b-indent_s_40"></div>
+        <div class="b-indent_s_10"></div>
+        <div th:replace="fragments/back-button :: back-button(backUrl = '/search')"></div>
+
+        <th:block th:if="${isSearch}">
+            <div class="fund_attribute">
+                Результаты поиска:
+                <li th:if="${searchForm.fundNumber} != ''" th:text="'№ фонда - ' + ${searchForm.fundNumber}"></li>
+                <li th:if="${searchForm.opisNumber} != ''" th:text="'№ описи - ' + ${searchForm.opisNumber}"></li>
+                <li th:if="${searchForm.storageUnitNumber} != ''" th:text="'№ единицы хранения - ' + ${searchForm.storageUnitNumber}"></li>
+                <li th:if="${searchForm.fondName} != ''" th:text="'Название - ' + ${searchForm.fondName}"></li>
+                <li th:if="${searchForm.personaName} != ''" th:text="'Персона - ' + ${searchForm.personaName}"></li>
+                <li th:if="${searchForm.organizationName} != ''" th:text="'Организация - ' + ${searchForm.organizationName}"></li>
+                <li th:if="${searchForm.yearDocumentFrom} != ''" th:text="'Год с - ' + ${searchForm.yearDocumentFrom}"></li>
+                <li th:if="${searchForm.yearDocumentTo} != ''" th:text="'Год по - ' + ${searchForm.yearDocumentTo}"></li>
+            </div>
+            <div class="b-indent b-indent_s_5"></div>
+            <div th:replace="fragments/search-results :: search-results" ></div>
+            <div class="b-indent b-indent_s_15"></div>
+            <th:block th:if="${isSearch}">
+                <a  class="blue-linked">Количество фондов:&nbsp;</a>
+                <a th:if="${searchResultCounts.totalUnits > 0}" class="opis-count"
+                   th:text="${searchResultCounts.totalUnits}">&nbsp5</a>
+
+
+            </th:block>
+            <div class="b-indent_s_40"></div>
+        </th:block>
+    </div>
+
+    <div style="height:60px; width: 930px; margin-left: 300px; margin-top: 20px;"></div>
+
+    <div class="b-flex search-storage-unit-filters">
+        <div class="b-flex">
+            <div style="width: 100px;"><a class="filter-text">Выводить по:</a></div>
+            <select id="pagesPerPage" class="b-form__select_bold" style="height: 28px; width: 70px; margin-top: -5px;">
+                <option th:each="option : ${selectPage.options}"
+                        th:value="${option.value}"
+                        th:selected="${option.selected}"
+                        th:text="${option.text}">20
+                </option>
+            </select>
+        </div>
+        <div class="b-flex">
+            <div style="width: 100px;  margin-left: 15px;"><a class="filter-text">Сортировать:</a></div>
+            <select id="selectWithSort" class="b-form__select_bold"
+                    style="height: 28px; width: 200px; margin-top: -5px;">
+                <option th:each="option : ${selectWithSort.options}"
+                        th:value="${option.value}"
+                        th:selected="${option.selected}"
+                        th:text="${option.text}">номер фонда
+                </option>
+            </select>
+        </div>
+        <div th:if="${model.page.totalPages > 0}">
+            <a class="filter-text filter-text-all"
+               th:text="'Всего фондов: ' + ${ ((model.page.currentPage - 1) * model.page.rowsPerPage) + 1}  + ' - ' + ${(model.page.currentPage) * model.page.rowsPerPage} + ' из ' + ${model.page.totalRows} ">Всего
+                фондов: 1-10 из 954</a>
+        </div>
+    </div>
+
+    <div class="b-indent_s_20"></div>
+
+    <div style="min-height:500px">
+        <div class="b-table b-table_mod_border b-table-attrs-storage-unit-list">
+            <div class="b-table__wrap">
+                <table class="b-table__table" style="width: 930px;">
+                    <thead class="b-table__head">
+                    <tr class="b-table__row">
+                        <td class="b-table__cell" style="width:50px">
+                            <p class="b-table__text">№ фонда</p>
+                        </td>
+                        <td class="b-table__cell" style="width:300px">
+                            <p class="b-table__text">Название фонда</p>
+                        </td>
+                        <td class="b-table__cell" style="width:150px">
+                            <p class="b-table__text">Крайние даты</p>
+                        </td>
+                        <td class="b-table__cell" style="width:100px">
+                            <p class="b-table__text">Кол-во ед.хр.</p>
+                        </td>
+                        <td class="b-table__cell" style="width:50px">
+                            <p class="b-table__text">Детальный просмотр</p>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="b-table__body">
+                    <tr th:each="fund : ${model.funds}" class="b-table__row">
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p class="b-table__text"><a th:text="${fund.displayFondNumber}"
+                                                        th:href="'/opis?fundId=' + ${fund.id}"
+                                                        class="blue-linked">Ф.10</a></p>
+                        </td>
+                        <td class="b-table__cell">
+                            <p th:text="${fund.fullFondName}" class="b-table__text">Аксаковы: Сергей Тимофеевич
+                                (1791-1859) - писатель; его сыновья:
+                                Константин Сергеевич (1817-1860) - поэт, публицист; Григорий Сергеевич (1820-1891) -
+                                сибирский губернатор; Иван Сергеевич (1823-1886) - поэт, публицист.</p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p th:text="${fund.extremeDates}" class="b-table__text">1739 - 1915 гг.</p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p class="b-table__text"><a th:text="${fund.units}"
+                                                        th:href="'/storage-unit?fundId=' + ${fund.id}"
+                                                        class="blue-linked">721</a></p>
+                        </td>
+                        <td class="b-table__cell b-table__cell_align_center">
+                            <p class="b-table__text"></p><a th:href="'/fund/' + ${fund.id}"
+                                                            class="context-menu__toggle"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="paginator">
+        <div class="b-pagination">
+            <div class="b-pagination__body"></a>
+                <a class="b-pagination__prev"></a>
+
+                <span class="b-pagination__title">Страницы:</span>
+
+                <th:block th:each="i: ${#numbers.sequence(model.page.firstVisiblePage, model.page.lastVisiblePage) }">
+                    <th:block th:if="${model.page.currentPage != i}">
+                        <a th:text="${i}" class="b-pagination__item">2</a>
+                    </th:block>
+                    <th:block th:if="${model.page.currentPage == i}">
+                        <a class="b-pagination__item b-pagination__item_state_active" th:text="${model.page.currentPage}">1</a>
+                    </th:block>
+                </th:block>
+
+                <div class="b-pagination__item2">&hellip;</div>
+
+                <a class="b-pagination__item" th:text="${model.page.totalPages}">96</a>
+
+                <span class="b-pagination__count" th:text="'Записей: ' + ${model.page.totalRows}">Записей: 954</span>
+
+                <a class="b-pagination__next"></a>
+            </div>
+        </div>
+    </div>
+    <div id="prefooter"></div>
+    <div style="display:none" id="currentFundType" th:text="${fundType}"></div>
+    <div style="display:none" id="currentPage" th:text="${model.page.currentPage}"></div>
+    <div style="display:none" id="nextPage" th:text="${model.page.nextPage}"></div>
+    <div style="display:none" id="previousPage" th:text="${model.page.previousPage}"></div>
+    <div style="display:none" id="isSearch" th:text="${isSearch}"></div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+
+          $("#pagesPerPage").change(function() {
+             $("#currentPage").html("1");
+             changePage()
+          });
+
+          $("#selectWithSort").change(function() {
+             $("#currentPage").html("1");
+             changePage()
+          });
+
+          $(".b-pagination__item").click(function() {
+             $("#currentPage").html($(this).text());
+             changePage()
+          });
+
+          $(".b-pagination__prev").click(function() {
+             $("#currentPage").html($("#previousPage").text());
+             changePage()
+          });
+
+          $(".b-pagination__next").click(function() {
+             $("#currentPage").html($("#nextPage").text());
+             changePage()
+          });
+    });
+
+    function changePage() {
+       if ($("#isSearch").text() === "true") {
+            $('#currentPageField').val($("#currentPage").text())
+            $('#elementsOnPageField').val($("#pagesPerPage").val())
+            $('#fieldForSortField').val( $("#selectWithSort").val())
+
+            $('#searchForm').attr('action', "/fund").submit();
+       } else {
+           var link = '/fund?fundType=' + $("#currentFundType").text() + '&fieldForSort=' +  $("#selectWithSort").val() + '&elementsOnPage=' + $("#pagesPerPage").val() + '&currentPage=' + $("#currentPage").text()
+           location.href = link
+       }
+    }
+    </script>
+
+    <script type="text/javascript">
+        function storageUnitSearch() {
+             $('#currentPageField').val("1")
+             $('#elementsOnPageField').val("20")
+             $('#fieldForSortField').val("")
+             $('#searchForm').attr('action', "/storage-unit/search").submit();
+        }
+
+        function fundSearch(fondType) {
+            $('#searchFondType').val(fondType)
+            $('#searchForm').attr('action', "/fund/search").submit();
+        }
+
+        function personSearch() {
+            $('#searchForm').attr('action', "/person/search").submit();
+        }
+
+        function organizationSearch() {
+            $('#searchForm').attr('action', "/organization/search").submit();
+        }
+    </script>
+
+    <form style="display:none" id="searchForm" action="#" th:action="@{/search}" th:object="${searchForm}" method="get">
+        <input type="text"  th:field="*{fundNumber}"/>
+        <input type="text"  th:field="*{opisNumber}"/>
+        <input type="text"  th:field="*{storageUnitNumber}"/>
+        <input type="text"  th:field="*{fondName}"/>
+        <input type="text"  th:field="*{personaName}"/>
+        <input type="text"  th:field="*{simpleSearch}"/>
+        <input id="organizationName" type="text"  th:field="*{organizationName}"/>
+        <input type="text"  th:field="*{yearDocumentFrom}"/>
+        <input type="text"  th:field="*{yearDocumentTo}"/>
+        <input id="currentPageField" type="text"  th:field="*{currentPage}"/>
+        <input id="elementsOnPageField" type="text"  th:field="*{elementsOnPage}"/>
+        <input id="fieldForSortField" type="text"  th:field="*{fieldForSort}"/>
+        <input type="text" id="searchFormPersonType"  th:field="*{personType}"/>
+        <input type="text" id="searchFondType"  th:field="*{fondType}"/>
+        <input type="text" id="searchPersonId"  th:field="*{personId}"/>
+    </form>
+
+</main>
+
+
+</body>
+</html>

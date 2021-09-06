@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - результаты поиска</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/menu :: menu"></div>
+    </div>
+
+    <div class="b-indent_s_40"></div>
+    <div class="b-indent b-indent_s_10"></div>
+
+    <div class="b-table-button-return" style="min-height:500px">
+        <div class="b-indent b-indent_s_10"></div>
+        <div th:replace="fragments/back-button :: back-button(backUrl = '/')"></div>
+
+        <form id="searchForm" action="#" th:action="@{/search/start}" th:object="${searchForm}" method="get">
+            <div class="search-reqs-new">
+                <div class="b-flex">
+                    <div class="b-form">
+                        <label class="b-form__label-search" style="width:160px; margin-left: 10px">№ фонда</label>
+                        <input type="text" id="searchFormFundNumber"
+                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                               class="b-form__input-search"
+                               style="width:75px;"
+                               th:field="*{fundNumber}"/>
+                    </div>
+                    <div class="b-form">
+                        <label class="b-form__label-search " style="width:68px; margin-left: 15px">№ описи</label>
+                        <input id="searchFormOpisNumber" type="text"
+                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                               class="b-form__input-search" style="width:75px;" th:field="*{opisNumber}"/>
+                    </div>
+                    <div class="b-form">
+                        <label class="b-form__label-search " style="width:170px; margin-left: 10px">№ единицы
+                            хранения</label>
+                        <input id="searchFormStorageUnitNumber"  type="text"
+                               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                               class="b-form__input-search" style="width:90px;" th:field="*{storageUnitNumber}"/>
+                    </div>
+                </div>
+                <div class="b-indent_s_10"></div>
+                <div class="b-form">
+                    <label class="b-form__label-search" style="width:160px; margin-left: 10px">Название</label>
+                    <input type="text" id="searchFormFondName" class="b-form__input-search" style="width:520px;" th:field="*{fondName}"/>
+                </div>
+                <div class="b-indent_s_10"></div>
+                <div>
+                    <label class="b-form__label-search" style="padding-right:92px; width:160px; margin-left: 10px">Персона</label>
+                    <select id="selectPersonaName" class="form-control" th:field="*{personaName}"></select>
+                </div>
+                <div class="b-form b-indent_s_10"></div>
+                <div>
+                    <label class="b-form__label-search" style="padding-right:59px; width:160px; margin-left: 10px">Организация</label>
+                    <select id="selectOrganizationName"  class="form-control" th:field="*{organizationName}"></select>
+                </div>
+                <div class="b-indent_s_10"></div>
+                <div class="b-form">
+                    <label class="b-form__label-search" style="width:160px; margin-left: 10px">Годы документов с</label>
+                    <input id="searchFormYearDocumentFrom" maxlength="4" type="text"
+                           class="b-form__input-search" style="width:75px;"
+                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                           th:field="*{yearDocumentFrom}"/>
+                    <label class="b-form__label-search" style="margin-left: 10px">по</label>
+                    <input id="searchFormYearDocumentTo"
+                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                           maxlength="4"
+                           type="text"
+                           class="b-form__input-search"
+                           style="width:75px;"
+                           th:field="*{yearDocumentTo}"/>
+                </div>
+                <div class="b-indent_s_25"></div>
+                <div class="b-flex b-flex_valign_center">
+                    <div style="margin-left: 10px;" onclick="document.getElementById('searchForm').submit()">
+                        <a class="b-button-rgali-search">
+                            <div class="b-button__icon b-button__icon_mod_search_rgali"></div>
+                            <div class="b-button__text">Поиск</div>
+                        </a>
+                        <div class="b-indent_s_10"></div>
+                    </div>
+                    <div style="margin-left: 10px;" onclick="document.getElementById('searchForm').reset()">
+                        <a class="b-button-rgali-search">
+                            <div class="b-button__icon b-button__icon_mod_remove_rgali"></div>
+                            <div class="b-button__text">Очистить</div>
+                        </a>
+                        <div class="b-indent_s_10"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="b-indent_s_40"></div>
+        <script type="text/javascript">
+        $(document).ready(function() {
+           $('#selectPersonaName').select2({
+             minimumInputLength: 4,
+             width: '520px',
+             allowClear: true,
+             tags: true,
+             placeholder: 'Введите минимум 4 символа для автоматического поиска',
+             ajax: {
+                url: function (params) {
+                    return '/api/v1/person/'+ params.term;
+                },
+                dataType: 'json',
+                type: 'GET',
+
+                processResults: function (data) {
+                      return {
+                        results: data
+                      };
+                }
+              }
+           });
+
+        $('#selectOrganizationName').select2({
+             minimumInputLength: 1,
+             placeholder: 'Введите минимум 1 символ для автоматического поиска',
+             width: '520px',
+             allowClear: true,
+             tags: true,
+             ajax: {
+                url: function (params) {
+                    return '/api/v1/organization/'+ params.term;
+                },
+                dataType: 'json',
+                type: 'GET',
+                processResults: function (data) {
+                      return {
+                        results: data
+                      };
+                }
+              }
+           });
+
+        });
+
+
+        $("#searchFormFundNumber").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+        });
+
+        $("#searchFormOpisNumber").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+        });
+
+        $("#searchFormStorageUnitNumber").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+        });
+
+        $("#searchFormFondName").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+        });
+
+        $("#selectPersonaName").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+        });
+
+        $("#selectOrganizationName").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+        });
+
+        $("#searchFormYearDocumentFrom").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+        });
+
+        $("#searchFormYearDocumentTo").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('searchForm').submit()
+            }
+
+        });
+
+        function enterOrDigits(charCode) {
+            return charCode >= 48 && charCode <= 57
+        }
+
+        </script>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

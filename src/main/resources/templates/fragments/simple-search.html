@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="simple-search">
+    <div class="search b-form">
+        <input class="b-form__input rgali_input" id="simpleSearch" placeholder="Простой поиск">
+        <input id="simpleSearchButton" type="button" onclick="startSimpleSearch()"
+               class="b-form__icon_input b-form__icon_mod_keyboard_input">
+    </div>
+    <form style="display:none" id="searchFormShort" action="#" th:action="@{/search/start}" th:object="${searchForm}"
+          method="get">
+        <input type="text" id="fondName" th:field="*{fondName}"/>
+        <input type="text" id="personaName" th:field="*{personaName}"/>
+        <input type="text" id="organizationName" th:field="*{organizationName}"/>
+        <input type="text" th:field="*{opisNumber}"/>
+        <input type="text" th:field="*{storageUnitNumber}"/>
+        <input type="text" th:field="*{fundNumber}"/>
+        <input type="text" th:field="*{yearDocumentFrom}"/>
+        <input type="text" th:field="*{yearDocumentTo}"/>
+        <input type="text" id="isSimpleSearch" th:field="*{simpleSearch}"/>
+    </form>
+    <a class="b-button__rgali" onclick="startSimpleSearch()">
+        <div class="b-button__icon_mod_search_rgali"></div>
+    </a>
+
+    <script language="JavaScript">
+        $("#simpleSearch").keyup(function (event) {
+            if (event.keyCode === 13) {
+                document.getElementById('simpleSearchButton').click()
+            }
+        });
+    </script>
+
+</div>
+
+
+</body>
+</html>

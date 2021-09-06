@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+  <meta charset="utf-8">
+  <title>РГАЛИ - регистрация</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+  <meta name="language" content="ru">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+        form i {
+           margin-left: -30px;
+           cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+  <div class="content">
+    <div th:if="${infoMessage != null}" th:text="${infoMessage}" class="label-attrs-registration-new red-colored-linked-no-underline" style="margin-top: 20px; margin-left: 200px;" >Неверный логин или пароль</div>
+    <div th:replace="fragments/small-menu :: menu"></div>
+    <div style="height: 700px;">
+      <div class="registration-block2">
+        <div class="b-indent_s_5"></div>
+        <div class="b-indent_s_20"></div>
+        <form name="registration" style="padding: 0 10px 5px 10px;" th:action="@{/registration}" th:object="${registrationForm}" method="post">
+          <div class="subtitle-text-reg-bold">
+            <a>Пользователь</a>
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div class="b-form" style="font-size: 10px">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">Фамилия<a class="red-colored">*</a></label>
+            <input class="b-form__input-registration" required th:field="*{firstName}"  style="margin-left: 30px; width: 180px;">
+            <label class="label-attrs-registration-new-normal" style="width: 90px; margin-left: 10px;">Имя<a class="red-colored">*</a></label>
+            <input class="b-form__input-registration" required th:field="*{secondName}" style="width: 180px;">
+            <label class="label-attrs-registration-new-normal" style="width: 90px; margin-left: 10px;">Отчество</label>
+            <input class="b-form__input-registration" th:field="*{thirdName}" style="width: 180px;">
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div class="b-form">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">Страна<a class="red-colored">*</a></label>
+            <input class="b-form__input-registration" required th:field="*{country}"  style="margin-left: 30px; width: 180px;">
+            <label class="label-attrs-registration-new-normal" style="width: 90px; margin-left: 10px;">Телефон<a class="red-colored">*</a></label>
+            <input class="b-form__input-registration" minlength="11" maxlength="11" type="tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="81111111111" required pattern="[8]{1}[0-9]{10}" th:field="*{phone}"   style="width: 180px;">
+            <label class="label-attrs-registration-new-normal" style="width: 90px; margin-left: 10px;">Email<a class="red-colored">*</a></label>
+            <input class="b-form__input-registration" th:field="*{email}" type="email" required style="width: 180px;">
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div class="b-form">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">Почтовый адрес<a class="red-colored">*</a></label>
+            <input class="b-form__input-registration" th:field="*{index}" required type="text" style="margin-left: 30px; width: 755px;">
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div>
+            <label class="label-attrs-registration-new-normal" style="width: 140px; margin-right: 62px;">Цель занятий</label>
+            <select id="selectPurposeResearch" class="b-form__input-registration" th:field="*{goal}"  style="margin-left: 30px; width: 755px;">
+            </select>
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div>
+            <label class="label-attrs-registration-new-normal" style="width: 140px; margin-right: 64px;">Темы работы<a class="red-colored">*</a></label>
+            <select id="selectResearchTheme" class="b-form__input-registration" th:field="*{workTheme}" required  type="text" style="margin-left: 30px; width: 755px;">
+            </select>
+          </div>
+
+          <div class="b-indent_s_10"></div>
+          <div class="b-flex" style="align-items: center;">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">Пароль<a class="red-colored">*</a></label>
+            <input id="password" class="b-form__input-registration" th:field="*{password}" required  type="password" style="margin-left: 30px; width: 180px;">
+            <i class="fa fa-eye-slash  fa-lg" id="togglePassword"></i>
+            <label class="label-attrs-registration-new-normal" style="width: 160px; margin-left: 227px;">Повторите пароль<a class="red-colored">*</a></label>
+            <input id="confirmPassword"  class="b-form__input-registration" th:field="*{passwordConfirm}" required type="password" style="width: 180px;">
+            <i class="fa fa-eye-slash  fa-lg" id="toggleConfirmPassword"></i>
+          </div>
+          <div class="b-indent_s_20"></div>
+          <div class="subtitle-text-reg-bold">
+            <a>Организация</a>
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div class="b-form">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">Наименование</label>
+            <input class="b-form__input-registration" th:field="*{organizationName}" type="text" style="margin-left: 30px; width: 755px;">
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div class="b-form">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">ФИО руководителя</label>
+            <input class="b-form__input-registration" th:field="*{fioBoss}" type="text" style="margin-left: 30px; width: 755px;">
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div class="b-form">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">Почтовый адрес, телефон</label>
+            <input class="b-form__input-registration" th:field="*{organizationIndexAndPhone}" type="text" style="margin-left: 30px; width: 755px;">
+          </div>
+          <div class="b-indent_s_10"></div>
+          <div class="b-form">
+            <label class="label-attrs-registration-new-normal" style="width: 140px;">Банковские реквизиты</label>
+            <input class="b-form__input-registration" th:field="*{billingDetails}" type="text" style="margin-left: 30px; width: 755px;">
+          </div>
+          <div class="b-indent_s_30"></div>
+          <div class="b-form">
+            <div class="b-form__checkbox">
+              <input class="b-form__checkbox-input" id="ch0" type="checkbox" required>
+              <label class="b-form__checkbox-label" for="ch0"></label>
+            </div>
+            <label class="label-attrs-registration-new-normal" style="margin-left: 30px;">Даю свое <a class="red-colored-linked">согласие</a> РГАЛИ на обработку представленных мной персональных данных.</label>
+          </div>
+          <div class="b-indent_s_30"></div>
+          <div class="b-flex">
+            <a class="b-button-rgali">
+              <div onclick="document.forms['registration'].submit.click()" class="b-button__text" style="width: 80px; text-align: center;">Регистрация</div>
+            </a>
+            <a class="b-button-rgali-grey" style="margin-left: 15px;">
+              <div onclick="location.href='/'" class="b-button__text-for-grey" style="width: 80px; text-align: center;">Отмена</div>
+            </a>
+          </div>
+          <input style="display:none" name="submit" type="submit" value="submit" />
+        </form>
+      </div>
+    </div>
+    <div class="b-indent_s_35"></div>
+    <div id="prefooter"></div>
+  </div>
+  <script type="text/javascript">
+        $(document).ready(function() {
+           $('#selectPurposeResearch').select2({
+             width: '520px',
+             allowClear: true,
+             tags: true,
+             ajax: {
+                url: '/api/v1/purpose-research',
+                dataType: 'json',
+                params: {
+                  method: 'get'
+                },
+                processResults: function (data) {
+                      return {
+                        results: data
+                      };
+                }
+              }
+           });
+
+        $('#selectResearchTheme').select2({
+             width: '520px',
+             allowClear: true,
+             tags: true,
+             ajax: {
+                url: '/api/v1/research-theme',
+                dataType: 'json',
+                params: {
+                  method: 'get'
+                },
+                processResults: function (data) {
+                      return {
+                        results: data
+                      };
+                }
+              }
+           });
+
+        });
+        </script>
+        <script>
+        function showHidePassword(passwordElement, toggleElement) {
+            const togglePassword = document.querySelector(toggleElement);
+            const password = document.querySelector(passwordElement);
+
+            togglePassword.addEventListener('click', function (e) {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                if (this.classList.contains('fa-eye-slash')) {
+                 this.classList.remove('fa-eye-slash');
+                 this.classList.toggle('fa-eye');
+                }
+                else {
+                    this.classList.remove('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                }
+            });
+         }
+         showHidePassword('#password','#togglePassword')
+         showHidePassword('#confirmPassword','#toggleConfirmPassword')
+
+        </script>
+
+  <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

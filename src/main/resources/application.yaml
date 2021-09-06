@@ -1,0 +1,42 @@
+server:
+  port: 9999
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: rgali
+  mail:
+    host: smtp.yandex.ru
+    username: noreply@rgali.ru
+    password: noreply0,
+    port: 587
+    protocol: smtp
+    properties:
+      "mail.transport.protocol": smtp
+      "mail.smtp.auth": true
+      "mail.smtp.starttls.enable": true
+
+  web:
+    resources:
+      add-mappings: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:7777/kaisa
+    username: postgres
+    password: 12qwaszxXZSAWQ
+    hikari:
+      schema: site
+      max-lifetime: 300000 #5 minutes wait time
+      maximum-pool-size: 20
+
+app:
+  image-path: /Users/vadimvikulin/Documents/images
+  host: http://localhost:9999
+  email-from: noreply@rgali.ru
+  email-tour: vikulin.va@gmail.com

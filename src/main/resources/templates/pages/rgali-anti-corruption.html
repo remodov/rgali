@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - анти коррупция</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <style>
+        .b-guided-tours-text-content {
+            margin-left: 20px;
+        }
+        .tours-block {
+            width: 935px;
+            margin-top: -480px;
+            margin-left: 5px;
+            height: 550px;
+        }
+        .article-text-justify-no-indents-guided-tours {
+            font: normal 14px/1.15 Roboto;
+            color: #212121;
+            text-align: justify;
+            width: 500px;
+        }
+        .content__item {
+            z-index: 1;
+        }
+        .content__item_title {
+            z-index: 1;
+        }
+
+        .modal {
+            max-width: 700px;
+        }
+
+        .modal a.close-modal {
+            display: none;
+        }
+
+        .label-attrs-feedback {
+            font: bold 16px Roboto;
+            color: #212121;
+            margin: 0 5px 0 0px;
+            width: 105px;
+        }
+        .input-attrs-feedback {
+            font: normal 14px/1.15 Roboto;
+            box-sizing: border-box;
+            height: 28px;
+            padding: 0 7px;
+            transition: all .3s ease;
+            color: #212121;
+            border: 1px solid #adb3c4;
+            border-radius: 2px;
+            outline: 0;
+            width: 500px;
+        }
+
+        .label-attrs-feedback-red {
+            font: normal 16px Roboto;
+            color: #be1e2d;
+            margin: -12px 0 0 3px;
+        }
+
+        .article-title-center {
+            font: bold 16px PlayfairDisplay;
+            text-align: center;
+            color: #212121;
+        }
+
+        .subtitle-text-feedback {
+            font: normal 14px/1.15 Roboto;
+            font-style: italic;
+            margin-left: 110px;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div id="ex1" class="modal">
+        <div>
+            <div class="feedback-block">
+                <form id="tour" style="padding: 0 10px 5px 10px;" th:action="@{/cor}" th:object="${tourForm}" method="post">
+                    <div class="b-flex b-flex_align_right">
+                        <a class="b-button-rgali" rel="modal:close" style="text-decoration: none"  href="#">
+                            <div class="b-button__text" style="text-decoration: none; width: 10px; text-align: center;">X</div>
+                        </a>
+                    </div>
+                    <div class="article-title-center">
+                        <a>ФОРМА ОБРАТНОЙ СВЯЗИ</a>
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                    <div style="text-align: center;">
+                        <a>Оставьте Ваши данные и мы свяжемся с Вами</a>
+                    </div>
+                    <div class="b-indent_s_25"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">Имя</label>
+                        <input required class="input-attrs-feedback" th:field="*{name}">
+                        <label class="label-attrs-feedback-red">*</label>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">E-mail</label>
+                        <input required class="input-attrs-feedback" type="email" th:field="*{email}">
+                        <label class="label-attrs-feedback-red">*</label>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">Телефон</label>
+                        <input required class="input-attrs-feedback" minlength="11" maxlength="11" type="tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="81111111111" pattern="[8]{1}[0-9]{10}" th:field="*{phone}">
+                        <label class="label-attrs-feedback-red">*</label>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form">
+                        <label class="b-form__label_align_right label-attrs-feedback">Тема</label>
+                        <select id="theme" required class="b-form__select" th:field="*{theme}" style="width: 500px; height: 30px;">
+                            <option value="Заказать экскурсию">Заказать экскурсию</option>
+                            <option selected value="Сообщить о фактах коррупции">Сообщить о фактах коррупции</option>
+                            <option value="Другое">Другое</option>
+                        </select>
+                    </div>
+                    <div class="b-indent_s_15"></div>
+                    <div class="b-form b-form_align_top">
+                        <label class="b-form__label_align_right label-attrs-feedback">Сообщение</label>
+                        <textarea required class="b-form__area" th:field="*{message}" style="height:92px;width: 500px;"></textarea>
+                        <label class="label-attrs-feedback-red-area">*</label>
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                    <div class="subtitle-text-feedback">
+                        <label class="label-attrs-feedback-red-no-left-indent">*</label>
+                        <a>Поля обязательные для заполнения</a>
+                    </div>
+                    <div class="b-indent_s_20"></div>
+                    <div class="b-flex b-flex_align_center">
+                        <a class="b-button-rgali">
+                            <div onclick="document.getElementById('send').click()" class="b-button__text" style="width: 100px; text-align: center;">ОТПРАВИТЬ</div>
+                        </a>
+                    </div>
+                    <input id="send" type="submit" style="display: none"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script language="JavaScript">
+        $("#open").click()
+        $("#theme").val("Сообщить о фактах коррупции")
+    </script>
+
+    <div class="content">
+        <div class="content">
+            <div class="b-indent_s_20"></div>
+            <div class="b-flex b-flex_valign_center article-title">
+                <img width="50"
+                     src="data:image/jpg;base64,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">
+                <a style="margin-left: 10px;">ПРОТИВОДЕЙСТВИЕ КОРРУПЦИИ</a>
+            </div>
+            <div class="b-indent b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">НОРМАТИВНЫЕ ПРАВОВЫЕ И ИНЫЕ АКТЫ В
+                                СФЕРЕ ПРОТИВОДЕЙСТВИЯ КОРРУПЦИИ</p>
+                            <div class="arrow-up-table-list"><img width="10"
+                                                                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <div class="article-table-text-bold-anti-corruption">
+                                <ul style="margin-left: -25px;">
+                                    <li>
+                                        <a class="article-table-list-text-colored" href="http://pravo.gov.ru/"
+                                           target="_blank">
+                                            Официальный интернет-портал правовой информации
+                                        </a>
+                                        <a class="article-table-list-text-article">
+                                            - Государственная система правовой информации<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://archives.gov.ru/anticorruption/npa/convention-un.shtml"
+                                           target="_blank">
+                                            Конвенция Организации Объединенных Наций против коррупции<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://archives.gov.ru/anticorruption/npa/convention-eu.shtml"
+                                           target="_blank">Конвенция от 27 января 1999 года об уголовной ответственности
+                                            за коррупцию</a><br>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <a class="article-table-list-text-article-bold" style="margin-left: -14px;">Федеральные
+                                        законы</a><br>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102126657"
+                                           target="_blank">
+                                            Федеральный закон от 25.12.2008 № 273-ФЗ «О противодействии коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102131168"
+                                           target="_blank">
+                                            Федеральный закон от 17.07.2009 № 172-ФЗ «Об антикоррупционной экспертизе
+                                            нормативных правовых актов и проектов нормативных правовых актов»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102161337"
+                                           target="_blank">
+                                            Федеральный закон от 03.12.2012 № 230-ФЗ «О контроле за соответствием
+                                            расходов лиц, замещающих государственные должности, и иных лиц их
+                                            доходам»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102165163"
+                                           target="_blank">
+                                            Федеральный закон от 07.05.2013 № 79-ФЗ «О запрете отдельным категориям лиц
+                                            открывать и иметь счета (вклады), хранить наличные денежные средства и
+                                            ценности в иностранных банках, расположенных за пределами территории
+                                            Российской Федерации, владеть и (или) пользоваться иностранными финансовыми
+                                            инструментами»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102165202"
+                                           target="_blank">
+                                            Федеральный закон от 07.05.2013 № 102-ФЗ «О внесении изменений в отдельные
+                                            законодательные акты Российской Федерации в связи с принятием Федерального
+                                            закона "О запрете отдельным категориям лиц открывать и иметь счета (вклады),
+                                            хранить наличные денежные средства и ценности в иностранных банках,
+                                            расположенных за пределами территории Российской Федерации, владеть и (или)
+                                            пользоваться иностранными финансовыми инструментами"»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <a class="article-table-list-text-article-bold" style="margin-left: -14px;">Указы
+                                        Президента Российской Федерации</a><br>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://publication.pravo.gov.ru/Document/View/0001202108160035"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 16.08.2021 № 478 «О национальном
+                                            плане противодействия коррупции на 2021–2024 годы»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102444107"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 19.09.2017 № 431 «О внесении
+                                            изменений в некоторые акты Президента Российской Федерации в целях усиления
+                                            контроля за соблюдением законодательства о противодействии коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102384556"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 22.12.2015 № 650 «О порядке
+                                            сообщения лицами, замещающими отдельные государственные должности Российской
+                                            Федерации, должности федеральной государственной службы, и иными лицами о
+                                            возникновении личной заинтересованности при исполнении должностных
+                                            обязанностей, которая приводит или может привести к конфликту интересов, и о
+                                            внесении изменений в некоторые акты Президента Российской Федерации»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102375996"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 15.07.2015 № 364 «О мерах по
+                                            совершенствованию организации деятельности в области противодействия
+                                            коррупции»Указ Президента Российской Федерации от 15.07.2015 № 364 «О мерах
+                                            по совершенствованию организации деятельности в области противодействия
+                                            коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102368620"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 08.03.2015 № 120 «О некоторых
+                                            вопросах противодействия коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102353813"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 23.06.2014 № 460 «Об утверждении
+                                            формы справки о доходах, расходах, об имуществе и обязательствах
+                                            имущественного характера и внесении изменений в некоторые акты Президента
+                                            Российской Федерации»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102166580"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 08.07.2013 № 613 «Вопросы
+                                            противодействия коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102164304"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 02.04.2013 № 309 «О мерах по
+                                            реализации отдельных положений Федерального закона "О противодействии
+                                            коррупции"»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102154482"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 13.03.2012 № 297 «О Национальном
+                                            плане противодействия коррупции на 2012–2013 годы и внесении изменений в
+                                            некоторые акты Президента Российской Федерации по вопросам противодействия
+                                            коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102140280"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 21.07.2010 № 925 «О мерах по
+                                            реализации отдельных положений Федерального закона "О противодействии
+                                            коррупции"»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102139510"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 01.07.2010 № 821 «О комиссиях по
+                                            соблюдению требований к служебному поведению федеральных государственных
+                                            служащих и урегулированию конфликта интересов»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102132591"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 21.09.2009 № 1065 «О проверке
+                                            достоверности и полноты сведений, представляемых гражданами, претендующими
+                                            на замещение должностей федеральной государственной службы, и федеральными
+                                            государственными служащими, и соблюдения федеральными государственными
+                                            служащими требований к служебному поведению»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102129669"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 18.05.2009 № 559 «О представлении
+                                            гражданами, претендующими на замещение должностей федеральной
+                                            государственной службы, и федеральными государственными служащими сведений о
+                                            доходах, об имуществе и обязательствах имущественного характера»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102129667"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 18.05.2009 № 557 «Об утверждении
+                                            перечня должностей федеральной государственной службы, при назначении на
+                                            которые граждане и при замещении которых федеральные государственные
+                                            служащие обязаны представлять сведения о своих доходах, об имуществе и
+                                            обязательствах имущественного характера, а также сведения о доходах, об
+                                            имуществе и обязательствах имущественного характера своих супруги (супруга)
+                                            и несовершеннолетних детей»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102122053"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 19.05.2008 № 815 «О мерах по
+                                            противодействию коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102077440"
+                                           target="_blank">
+                                            Указ Президента Российской Федерации от 12.08.2002 № 885 «Об утверждении
+                                            общих принципов служебного поведения государственных служащих»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <a class="article-table-list-text-article-bold" style="margin-left: -14px;">Постановления
+                                        Правительства Российской Федерации</a><br>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102463022"
+                                           target="_blank">
+                                            Постановление Правительства Российской Федерации от 05.03.2018 № 228 «О
+                                            реестре лиц, уволенных в связи с утратой доверия»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102366631"
+                                           target="_blank">
+                                            Постановление Правительства Российской Федерации от 21.01.2015 № 29 «Об
+                                            утверждении Правил сообщения работодателем о заключении трудового или
+                                            гражданско-правового договора на выполнение работ (оказание услуг) с
+                                            гражданином, замещавшим должности государственной или муниципальной службы,
+                                            перечень которых устанавливается нормативными правовыми актами Российской
+                                            Федерации»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102170581"
+                                           target="_blank">
+                                            Постановление Правительства Российской Федерации от 09.01.2014 № 10 «О
+                                            порядке сообщения отдельными категориями лиц о получении подарка в связи с
+                                            их должностным положением или исполнением ими служебных (должностных)
+                                            обязанностей, сдачи и оценки подарка, реализации (выкупа) и зачисления
+                                            средств, вырученных от его реализации»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102166497"
+                                           target="_blank">
+                                            Постановление Правительства Российской Федерации от 05.07.2013 № 568 «О
+                                            распространении на отдельные категории граждан ограничений, запретов и
+                                            обязанностей, установленных федеральным законом «О противодействии
+                                            коррупции» и другими федеральными законами в целях противодействия
+                                            коррупции»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <a class="article-table-list-text-colored"
+                                       href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102163736" target="_blank">
+                                        Постановление Правительства Российской Федерации от 13.03.2013 № 208 «Об
+                                        утверждении Правил представления лицом, поступающим на работу на должность
+                                        руководителя федерального государственного учреждения, а также руководителем
+                                        федерального государственного учреждения сведений о своих доходах, об имуществе
+                                        и обязательствах имущественного характера и о доходах, об имуществе и
+                                        обязательствах имущественного характера своих супруга (супруги) и
+                                        несовершеннолетних детей»<br>
+                                    </a>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102163735"
+                                           target="_blank">
+                                            Постановление Правительства Российской Федерации от 13.03.2013 № 207 «Об
+                                            утверждении Правил проверки достоверности и полноты сведений о доходах, об
+                                            имуществе и обязательствах имущественного характера, представляемых
+                                            гражданами, претендующими на замещение должностей руководителей федеральных
+                                            государственных учреждений, и лицами, замещающими эти должности»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="http://pravo.gov.ru/proxy/ips/?docbody=&amp;nd=102136170"
+                                           target="_blank">
+                                            Постановление Правительства Российской Федерации от 26.02.2010 № 96 «Об
+                                            антикоррупционной экспертизе нормативных правовых актов и проектов
+                                            нормативных правовых актов»<br>
+                                        </a>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <a class="article-table-list-text-article-bold" style="margin-left: -14px;">Иные
+                                        акты</a><br>
+                                    <div class="b-indent_s_10"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://archives.gov.ru/documents/other/prikaz-mintrud-2013-530n.shtml"
+                                           target="_blank">
+                                            Приказ Министерства труда и социальной защиты Российской Федерации от
+                                            07.10.2013 № 530н «О требованиях к размещению и наполнению подразделов,
+                                            посвященных вопросам противодействия коррупции, официальных сайтов
+                                            федеральных государственных органов, Центрального банка Российской
+                                            Федерации, Пенсионного фонда Российской Федерации, Фонда социального
+                                            страхования Российской Федерации, Федерального фонда обязательного
+                                            медицинского страхования, государственных корпораций (компаний), иных
+                                            организаций, созданных на основании федеральных законов, и требованиях к
+                                            должностям, замещение которых влечет за собой размещение сведений о доходах,
+                                            расходах, об имуществе и обязательствах имущественного характера»<br>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">МЕТОДИЧЕСКИЕ МАТЕРИАЛЫ</p>
+                            <div class="arrow-up-table-list"><img width="10"
+                                                                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <a class="article-table-list-text-article-bold">
+                                Методические материалы, обзоры, разъяснения и иные документы, подготовленные
+                                Министерством труда и социальной защиты Российской Федерации<br>
+                            </a>
+                            <div class="article-table-list-text">
+                                <ul style="margin-left: -25px;">
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://mintrud.gov.ru/ministry/programms/anticorruption/9"
+                                           target="_blank">Методические материалы по вопросам противодействия
+                                            коррупции</a>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://mintrud.gov.ru/ministry/programms/anticorruption/015/0"
+                                           target="_blank">Методические рекомендации по разработке и принятию
+                                            организациями мер по предупреждению и противодействию коррупции</a>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://mintrud.gov.ru/ministry/programms/anticorruption/9/13"
+                                           target="_blank">Обзор практики правоприменения в сфере конфликта
+                                            интересов</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="b-indent_s_15"></div>
+                            <a class="article-table-list-text-colored" href="https://gossluzhba.gov.ru/anticorruption"
+                               target="_blank">
+                                Специализированный информационно-методический ресурс по вопросам противодействия
+                                коррупции на базе федеральной государственной информационной системы «Единая
+                                информационная система управления кадровым составом государственной гражданской службы
+                                Российской Федерации»<br>
+                            </a>
+                            <div class="b-indent_s_25"></div>
+                            <div class="article-table-list-text">
+                                <ul style="margin-left: -25px;">
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://mintrud.gov.ru/uploads/magic/ru-RU/Ministry-0-121-src-1611093194.392.pdf"
+                                           target="_blank">Методические рекомендации по вопросам представления сведений
+                                            о доходах, расходах, об имуществе и обязательствах имущественного
+                                            характера</a>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a class="article-table-list-text-colored"
+                                           href="https://mintrud.gov.ru/ministry/programms/anticorruption/9/12"
+                                           target="_blank">Методические рекомендации по проведению анализа сведений о
+                                            доходах, расходах, об имуществе и обязательствах имущественного
+                                            характера</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">ФОРМЫ ДОКУМЕНТОВ, СВЯЗАННЫХ С
+                                ПРОТИВОДЕЙСТВИЕМ КОРРУПЦИИ, ДЛЯ ЗАПОЛНЕНИЯ</p>
+                            <div class="arrow-up-table-list"><img width="10"
+                                                                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <div>
+                                <div class="b-flex" style="margin-top: -20px;">
+                                    <a href="/doc/request_buy_present.docx"
+                                       download="Заявление о намерении выкупить подарок.docx">
+                                        <img style="margin-left: -6px; cursor: pointer;" width="30"
+                                             src="/images/file.png">
+                                    </a>
+                                    <div class="div-table-anti-corruption">
+                                        <a onclick="showHideDoc('01')" class="article-table-anti-corruption">Заявление о
+                                            намерении выкупить подарок</a></div>
+                                </div>
+                                <iframe id="doc01" style="display:none; margin-top:30px" width="1000px" height="1000px"
+                                        src="https://docs.google.com/document/d/e/2PACX-1vTQRrTiNaE-NGO_E97hUnQtIGr0TK3IPRVZnRv0CzALxIq-pZCammUBIwNTOirDYdQCcEieurF-Q90b/pub?embedded=true"></iframe>
+                            </div>
+                            <div class="b-indent_s_15"></div>
+                            <div>
+                                <div class="b-flex">
+                                    <a href="/doc/cit_mess_corr.docx"
+                                       download="Сообщение гражданина по фактам коррупционных правонарушений.docx">
+                                        <img style="margin-left: -6px; cursor: pointer;" width="30"
+                                             src="/images/file.png">
+                                    </a>
+                                    <div class="div-table-anti-corruption">
+                                        <a onclick="showHideDoc('02')" class="article-table-anti-corruption">Сообщение
+                                            гражданина по фактам коррупционных правонарушений</a></div>
+                                </div>
+                                <iframe id="doc02" style="display:none; margin-top:30px" width="1000px" height="1000px"
+                                        src="https://docs.google.com/document/d/e/2PACX-1vQlUwTHGelHHRxFKjfhCOEheSfeQN9Ivwi-U3NWyYlo820JFHIdd5Nt2mPsHpOKfR3m2c2_jaB6KxFo/pub?embedded=true"></iframe>
+                            </div>
+                            <div class="b-indent_s_15"></div>
+                            <div>
+                                <div class="b-flex">
+                                    <a href="/doc/attention_personal_benefit.docx"
+                                       download="Уведомление о возникновении личной заинтересованности.docx">
+                                        <img style="margin-left: -6px; cursor: pointer;" width="30"
+                                             src="/images/file.png">
+                                    </a>
+                                    <div class="div-table-anti-corruption">
+                                        <a onclick="showHideDoc('03')" class="article-table-anti-corruption">Уведомление
+                                            о возникновении личной заинтересованности</a></div>
+                                </div>
+                                <iframe id="doc03" style="display:none; margin-top:30px" width="1000px" height="1000px"
+                                        src="https://docs.google.com/document/d/e/2PACX-1vROTNGMxBvBxNX6cIstryagF9gwmf3kKDdK8ApZOkgaGal4NvKoNJQSEFpoTV4psQuoO82ePAheMSAi/pub?embedded=true"></iframe>
+                            </div>
+                            <div class="b-indent_s_15"></div>
+                            <div>
+                                <div class="b-flex">
+                                    <a href="/doc/notice_recieve_present.docx"
+                                       download="Уведомление о получении подарка.docx">
+                                        <img style="margin-left: -6px; cursor: pointer;" width="30"
+                                             src="/images/file.png">
+                                    </a>
+                                    <div class="div-table-anti-corruption">
+                                        <a onclick="showHideDoc('04')" class="article-table-anti-corruption">Уведомление
+                                            о получении подарка</a></div>
+                                </div>
+                                <iframe id="doc04" style="display:none; margin-top:30px" width="1000px" height="1000px"
+                                        src="https://docs.google.com/document/d/e/2PACX-1vRQVjddUjG3LYfYMmtU7Rj9SRwiCLK0BcB_lq9sBBuXcuBzdjBAGWKZIJ1A0bCPiknXu81_-zZzsCnE/pub?embedded=true"></iframe>
+                            </div>
+                            <div class="b-indent_s_15"></div>
+                            <div>
+                                <div class="b-flex">
+                                    <a href="/doc/notice_corruption.docx"
+                                       download="Уведомление о склонении к коррупционному правонарушению.docx">
+                                        <img style="margin-left: -6px; cursor: pointer;" width="30"
+                                             src="/images/file.png">
+                                    </a>
+                                    <div class="div-table-anti-corruption">
+                                        <a onclick="showHideDoc('05')" class="article-table-anti-corruption">Уведомление
+                                            о склонении к коррупционному правонарушению</a></div>
+                                </div>
+                                <iframe id="doc05" style="display:none; margin-top:30px" width="1000px" height="1000px"
+                                        src="https://docs.google.com/document/d/e/2PACX-1vQ6z2iytghcgPSat6tGKpvmb-RgkG7PMqUfFXwPU0hbYSsBEGjFDPFhu9d4wsbf6dGzMUKCJ4KTRXqH/pub?embedded=true"></iframe>
+                            </div>
+                            <div class="b-indent_s_15"></div>
+                            <div>
+                                <div class="b-flex">
+                                    <a href="/doc/form_income.docx"
+                                       download="Форма справки о доходах актуальная форма.docx">
+                                        <img style="margin-left: -6px; cursor: pointer;" width="30"
+                                             src="/images/file.png">
+                                    </a>
+                                    <div class="div-table-anti-corruption">
+                                        <a onclick="showHideDoc('06')" class="article-table-anti-corruption">Форма
+                                            справки о доходах актуальная форма</a></div>
+                                </div>
+                                <iframe id="doc06" style="display:none; margin-top:30px" width="1000px" height="1000px"
+                                        src="https://docs.google.com/document/d/e/2PACX-1vQctVV-FgrjxFUkhhwpVKo8AMmaE40JTeCizP1QIlfKdCs6fanL0jZRarVmoRLmEb5BTouXtGxpDoxY/pub?embedded=true"></iframe>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">СВЕДЕНИЯ О ДОХОДАХ, РАСХОДАХ, ОБ
+                                ИМУЩЕСТВЕ И ОБЯЗАТЕЛЬСТВАХ ИМУЩЕСТВЕННОГО ХАРАКТЕРА</p>
+                            <div class="arrow-up-table-list"><img width="10"
+                                                                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <div class="article-table-text-bold-anti-corruption">
+                                <ul style="margin-left: -25px;">
+                                    <li>
+                                        <a onclick="showHideDoc('34')" class="article-table-list-text-colored">
+                                            Сведения о доходах, расходах, об имуществе и обязательствах имущественного
+                                            характера за 2015 год
+                                        </a>
+                                        <iframe id="doc34" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vRzSIcRIZ6upo2iGBTsAzq0QXT9il4-9ehzX1szFb5OjM3dkp5zBvfc0Q9Tr9oXwA/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('12')" class="article-table-list-text-colored">
+                                            Сведения о доходах, расходах, об имуществе и обязательствах имущественного
+                                            характера за 2016 год</a>
+                                        <iframe id="doc12" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vTNpyec_iB5JGZqh2h3KZtxJDDGeStO4adC-PYpCpnCYdu_5cbex3X5ZEx0EcV8rbsdEdBz6WTCStZz/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('07')" class="article-table-list-text-colored">
+                                            Сведения о доходах, расходах, об имуществе и обязательствах имущественного
+                                            характера за 2017 год
+                                        </a>
+                                        <iframe id="doc07" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vRbi5D3JnlScyZnNXFBp59noUOhXIXesy1767gXOh4QcOvgvj5HVzNIIrln2bCmUDiXieFjKr433FRJ/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('10')" class="article-table-list-text-colored">Сведения
+                                            о доходах, расходах, об имуществе и обязательствах имущественного характера
+                                            за 2018 год</a>
+                                        <iframe id="doc10" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vSGfjob_jhWoheLrb8DJYD0NSzJbBHUMj-ru8a0lc71M7VaB4fdNxImpKRKqt0Z4j6NaRNZfsxG-WnB/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('09')" class="article-table-list-text-colored">Уточненные
+                                            сведения о доходах, расходах, об имуществе и обязательствах имущественного
+                                            характера за 2018 год</a>
+                                        <iframe id="doc09" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vSSZ_ZgYF-ixbPr3jpx3N9hg5-TcT3W4dyqNGOPYbMHV_ky_T9v-H3RpDerZ6d3CiS6X4XBOeSnrjiz/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('11')" class="article-table-list-text-colored">Сведения
+                                            о доходах, расходах, об имуществе и обязательствах имущественного характера
+                                            за 2019 год</a>
+                                        <iframe id="doc11" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vSq-mbyhXxuCWuBzSdhlAMPgu6o5M8qneW7PuHoBsk2lGVmghSyVqcd02Aw95WkZVSRcgtsBNJzlnxX/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('08')" class="article-table-list-text-colored">Сведения
+                                            о доходах, расходах, об имуществе и обязательствах имущественного характера
+                                            за 2020 год</a>
+                                        <iframe id="doc08" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vQqG2vcLDnneegiiTW-8qeMfdkpRMp2VIJJk5RTME9v6ZoYZb0rkYwuZs64vvXD3A7z7LRcAmePaCL4/pub?embedded=true"></iframe>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">ОБРАТНАЯ СВЯЗЬ ДЛЯ СООБЩЕНИЙ О ФАКТАХ КОРРУПЦИИ</p>
+                            <div class="arrow-up-table-list">
+                                <img width="10" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <div style="margin-top: -30px;">
+                                <br><a class="article-table-list-text-article" style="">Прием обращений граждан по
+                                выявленным фактам коррупции среди работников РГАЛИ осуществляется:<br>
+                                по телефону: +7 499 159-73-81;<br>
+                                на адрес электронной почты: </a><a
+                                    class="article-table-list-text-article bold-linked-text">rgali@rgali.ru</a>
+                                <a rel="modal:open" class="article-table-list-text-colored" href="#ex1">;<br>
+                                    через форму обратной связи для сообщений о фактах коррупции</a>
+                                <a class="article-table-list-text-colored"
+                                    href="../rgali_contacts/rgali-contacts.html">;<br></a>
+                                <a class="article-table-list-text-article">
+                                на почтовый адрес: 125212, Москва, ул. Выборгская, д.3, корп.2.<br>
+                                В обращении гражданин в обязательном порядке указывает свои фамилию, имя, отчество
+                                (последнее - при наличии), адрес электронной почты, если ответ должен быть направлен в
+                                форме электронного документа, и почтовый адрес, если ответ должен быть направлен в
+                                письменной форме, а также излагает суть обращения.<br>
+                                В случае, если в письменном обращении не указаны фамилия гражданина, направившего
+                                обращение, или почтовый адрес, по которому должен быть направлен ответ, ответ на
+                                обращение не дается.</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">ИНФОРМАЦИЯ О ПРИНИМАЕМЫХ МЕРАХ ПО ПРОТИВОДЕЙСТВИЮ КОРРУПЦИИ</p>
+                            <div class="arrow-up-table-list"><img width="10" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <div class="article-table-text-bold-anti-corruption">
+                                <ul style="margin-left: -25px;">
+                                    <li>
+                                        <a onclick="showHideDoc('16')" class="article-table-list-text-colored">
+                                            Отчет по плану противодействия коррупции РГАЛИ за 2018 г.
+                                        </a>
+                                        <iframe id="doc16" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vR7sMjQAazjrUQUUWp_YtMkl4lzuyZGZ4BUs9L1CGYNp3KImRenfnYUrHbnOpVon-SDtl3KwqmfTK6C/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('14')" class="article-table-list-text-colored">
+                                            Отчет по выполнению плана антикоррупции за 2019
+                                        </a>
+                                        <iframe id="doc14" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vSrXhrJffbXN5VnnjdLFFlZt9MMiWIWlsc6Qti7Zt9lRcnViZ8deusb10UyNX3s0PQfLmOGl_P4Gwfh/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('15')" class="article-table-list-text-colored">
+                                            Отчет по мерам антикоррупционной деятельности. за 2020 г.
+                                        </a>
+                                        <iframe id="doc15" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vTAPi0AjJwUn9jyjqCIozUy-e_iBrXnQWiQ9pZvi0FgGiyYfn-n7kigJ3VwWH-lOt3JMx1IWYUwiXxw/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('17')" class="article-table-list-text-colored">
+                                            План РГАЛИ по антикоррупции на 2021-2024гг
+                                        </a>
+                                        <iframe id="doc17" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vR1KvTiy4YPcwcBzbSQ0hhPfPXnr6NqPrYagYS-bDDGprIVO-Iemt6DVtiJ-Zvpfx9t05zjBdaQ9XKy/pub?embedded=true"></iframe>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">ПЕРЕЧЕНЬ КОРРУПЦИОННО-ОПАСНЫХ ФУНКЦИЙ, ОСУЩЕСТВЛЯЕМЫХ РОССИЙСКИМ ГОСУДАРСТВЕННЫМ АРХИВОМ ЛИТЕРАТУРЫ И ИСКУССТВА</p>
+                            <div class="arrow-up-table-list"><img width="10"
+                                                                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <div class="article-table-text-bold-anti-corruption">
+                                <ul style="margin-left: -25px;">
+                                    <li>
+                                        <a onclick="showHideDoc('18')" class="article-table-list-text-colored">
+                                            Карта коррупц. рисков-2020
+                                        </a>
+                                        <iframe id="doc18" style="display:none; margin-top:30px" width="1000px" height="1000px" src="https://docs.google.com/document/d/e/2PACX-1vQowFDbMGxryRcuh3EJOqXG8NUzgaiUAeIqpLWP-zlPpf7qJZZbyAVZknfMRVEViap7xUcXk_KrbU-q/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('19')" class="article-table-list-text-colored">
+                                            Перечень коррупционно-опасных рисков РГАЛИ - 2019
+                                        </a>
+                                        <iframe id="doc19" style="display:none; margin-top:30px" width="1000px" height="1000px" src="https://docs.google.com/document/d/e/2PACX-1vT-Xjxq2ZNy0WZ1cO1tkf6q6WnybXMi1eOni7_ZdGBKQtIk0AzXRv-oIyONi9iYUzE1FNdlI6ctUAlY/pub?embedded=true"></iframe>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">ВЕДОМСТВЕННЫЕ НОРМАТИВНЫЕ ПРАВОВЫЕ
+                                АКТЫ В СФЕРЕ ПРОТИВОДЕЙСТВИЯ КОРРУПЦИИ</p>
+                            <div class="arrow-up-table-list"><img width="10"
+                                                                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <a class="article-table-list-text-colored"
+                               href="https://archives.gov.ru/index.php?q=anticorruption/rosarchiv.shtml/"
+                               target="_blank">Ведомственные нормативные правовые акты в сфере противодействия
+                                коррупции</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell">
+                            <p class="b-rgali-table__text" style="width: 1130px;">ЛОКАЛЬНЫЕ НОРМАТИВНЫЕ АКТЫ РГАЛИ В СФЕРЕ ПРОТИВОДЕЙСТВИЯ КОРРУПЦИИ</p>
+                            <div class="arrow-up-table-list"><img width="10" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg=="></div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell-nagrad" style="width:1000px;">
+                            <div class="article-table-text-bold-anti-corruption">
+                                <ul style="margin-left: -25px;">
+                                    <li>
+                                        <a onclick="showHideDoc('20')" class="article-table-list-text-colored">Антикоррупционная политика РГАЛИ</a>
+                                        <iframe id="doc20" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vTti1qokMq2vuduUR8yAcb_drspadIC4vXaVXsnhgBv0NfQQvBUDpnAhd1l9Y5jWwphlvxL46vaSbFC/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('21')" class="article-table-list-text-colored">Кодекс этики и служебного поведения работников</a>
+                                        <iframe id="doc21" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vTIGczn6EzpviUzYnctywHs24_lax-Wum8uJNHIJC1fh3c2HL_LrOo8ALjk-MuvvZjk0NnVeNmHVVgO/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('22')" class="article-table-list-text-colored">Положение о конфликте интересов РГАЛИ</a>
+                                        <iframe id="doc22" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px" src="https://docs.google.com/document/d/e/2PACX-1vREWNGqVVJPeaQPGKqGJ90W1xCvPRkrTTn1YMtxgWFPeApqW2-llkDoaxal6yzsYXDi_zsJ5ybrBl1Y/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('23')" class="article-table-list-text-colored">Порядок
+                                            сообщения о подарках. Приложеие</a>
+                                        <iframe id="doc23" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vT6dYFSHPycuyZ_rJoK9HXY5MTJim5hkvySDPyzUUhUSzwhfUWL1NaR1AXAFgKfp8pfMtomTFydcqjF/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('24')" class="article-table-list-text-colored">Порядок
+                                            сообщения о подарках</a>
+                                        <iframe id="doc24" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vSaYbA1B0Q9FHL52pxR0Kiuw8I1qz5XK6ynQPiBPvZ7t8WfmxYYLBmS9hkJwrISE7HWXXygHfG_NyEN/pub?embedded=true"></iframe>
+                                    </li>
+                                    <div class="b-indent_s_15"></div>
+                                    <li>
+                                        <a onclick="showHideDoc('25')" class="article-table-list-text-colored">Правила обмена деловыми подарками и знаками РГАЛИ</a>
+                                        <iframe id="doc25" style="display:none; margin-top:30px" width="1000px"
+                                                height="1000px"
+                                                src="https://docs.google.com/document/d/e/2PACX-1vRvDMi8059xuKcf6inrE4jARWX7GG31c41kQXGo5gtC5xscPWHjQwO83gxs08ODbT8JUqVvBVQj80A1/pub?embedded=true"></iframe>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent b-indent_s_15"></div>
+            <div class="b-rgali-table-list_mod_border">
+                <table class="b-rgali-table-list__table">
+                    <thead class="b-rgali-table__head">
+                    <tr class="b-rgali-table__row">
+                        <td class="b-rgali-table__cell" colspan="2">
+                            <p class="b-rgali-table__text" style="width: 1130px;">ОТВЕТСТВЕННЫЕ ЗА ПРОФИЛАКТИКУ
+                                КОРРУПЦИОННЫХ И ИНЫХ ПРАВОНАРУШЕНИЙ В РГАЛИ</p>
+                            <div class="arrow-up-table-list"><img width="10"
+                                                                  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjEuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhcGFfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojMzMzMzMzO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjU2LDExMC4xYzkuMiwwLDE4LjQsMy41LDI1LjMsMTAuNWwyMjAuMiwyMjAuMWMxNCwxNCwxNCwzNi43LDAsNTAuN3MtMzYuNywxNC01MC43LDBMMjU2LDE5Ni42TDYxLjIsMzkxLjQKCQljLTE0LDE0LTM2LjcsMTQtNTAuNywwcy0xNC0zNi43LDAtNTAuN2wyMjAuMi0yMjAuMUMyMzcuNywxMTMuNiwyNDYuOCwxMTAuMSwyNTYsMTEwLjF6Ii8+CjwvZz4KPC9zdmc+Cg==">
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="rgali-table-body">
+                    <tr class="b-table__row b-table__row_valign_top">
+                        <td class="b-rgali-table__cell" style="width:292px;">
+                            <p class="b-rgali-table__text"><a class="table-fio-text">Галицина<br>Наталья
+                                Владимировна</a><br><br><a class="table-position-text">Заместитель начальника отдела
+                                организационно-методической и кадровой работы</a></p>
+                        </td>
+                        <td class="b-rgali-table__cell" style="width:208px;">
+                            <p class="b-rgali-table__text"><a class="table-fio-text">Донцова<br>Оксана
+                                Николаевна</a><br><br><a class="table-position-text">Ведущий специалист отдела
+                                информации и использования документов</a></p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="b-indent_s_40"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+       function showHideDoc(docId) {
+         if ($("#doc" + docId).is(":hidden")) {
+            $("#doc" + docId).show()
+         } else {
+             $("#doc" + docId).hide()
+          }
+       }
+    </script>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

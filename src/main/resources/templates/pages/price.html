@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - цены</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.2.1/lightgallery.min.js" integrity="sha512-DHzj0Pb74Okp1KYj1vRYZ2kZKQtScr+ilk0w8lEjHgU4OvRKOGecRAEkejpBPlzmY1L2pU7m9o1DAk6Tmex/Eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.2.1/plugins/thumbnail/lg-thumbnail.min.js" integrity="sha512-HXxN3IYkrTWLlY1asbRx+fgPfTOpVSyg1UpqxFXg9hQUFdBl9/AdESqpaPzZX0HrcKsXA38hl9rOZm+qP/XKtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.2.1/plugins/zoom/lg-zoom.min.js" integrity="sha512-P4z+Vrg0pDrTDKhbrED8I1L0lDTCYnn4EV94G79Fpfwz7FXdPmWGYcL23CLQwu1gGa7KtpvyO1sM4lI7jgscXw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.2.1/css/lightgallery.min.css" integrity="sha512-LeCCaxc1iF2UArsp3NWiOAz1mSLXFXmuiOm2n8gxOSnCXIltE27/NV9yGshWgHSCKNigfDiJUskpRiithdGc3A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.2.1/css/lg-thumbnail.min.css" integrity="sha512-GRxDpj/bx6/I4y6h2LE5rbGaqRcbTu4dYhaTewlS8Nh9hm/akYprvOTZD7GR+FRCALiKfe8u1gjvWEEGEtoR6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.2.1/css/lg-zoom.min.css" integrity="sha512-SGo05yQXwPFKXE+GtWCn7J4OZQBaQIakZSxQSqUyVWqO0TAv3gaF/Vox1FmG4IyXJWDwu/lXzXqPOnfX1va0+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .inline-gallery-container {
+          width: 1200px;
+          height: 800px;
+        }
+    </style>
+
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="b-indent_s_40"></div>
+    <div class="content" style="margin-left:100px; min-height:500px">
+        <div id="inline-gallery-container" class="inline-gallery-container"></div>
+    </div>
+    <div class="b-indent_s_40"></div>
+
+    <script type="text/javascript">
+    const $lgContainer = document.getElementById("inline-gallery-container");
+    const inlineGallery = lightGallery($lgContainer, {
+          container: $lgContainer,
+          dynamic: true,
+          hash: false,
+          closable: false,
+          showMaximizeIcon: true,
+          appendSubHtmlTo: ".lg-item",
+          slideDelay: 100,
+          plugins: [lgZoom, lgThumbnail],
+          dynamicEl: [
+                {
+                    src: 'images/price/1.jfif',
+                    thumb: 'images/price/1.jfif'
+                },
+                {
+                    src: 'images/price/2.jfif',
+                    thumb: 'images/price/2.jfif'
+                },
+                {
+                    src: 'images/price/3.jfif',
+                    thumb: 'images/price/3.jfif'
+                },
+                {
+                    src: 'images/price/4.jfif',
+                    thumb: 'images/price/4.jfif'
+                },
+                {
+                    src: 'images/price/5.jfif',
+                    thumb: 'images/price/5.jfif'
+                },
+                {
+                    src: 'images/price/6.jfif',
+                    thumb: 'images/price/6.jfif'
+                },
+                {
+                    src: 'images/price/7.jfif',
+                    thumb: 'images/price/7.jfif'
+                },
+                                {
+                    src: 'images/price/8.jfif',
+                    thumb: 'images/price/8.jfif'
+                },
+                {
+                    src: 'images/price/9.jfif',
+                    thumb: 'images/price/9.jfif'
+                },
+                {
+                    src: 'images/price/10.jfif',
+                    thumb: 'images/price/10.jfif'
+                },
+                {
+                    src: 'images/price/11.jfif',
+                    thumb: 'images/price/11.jfif'
+                }
+            ],
+
+          thumbWidth: 60,
+          thumbHeight: "40px",
+          thumbMargin: 4
+        });
+
+        setTimeout(() => {
+          inlineGallery.openGallery();
+        }, 200);
+
+    </script>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+</main>
+
+</body>
+</html>

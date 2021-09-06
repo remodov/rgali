@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - запрос в архив</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/opis-card.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/small-menu :: menu"></div>
+        <div class="request-block">
+            <div class="b-indent_s_20"></div>
+            <div class="article-title-request">
+                <a>ПОДАЧА ЗАПРОСА В АРХИВ</a>
+            </div>
+            <div class="b-indent_s_20"></div>
+            <div class="article-title-underlined">
+                <a>Виды запросов</a>
+            </div>
+            <div class="article-text-request">
+                <a>Российский государственный архив литературы и искусства исполняет следующие виды запросов и заказов граждан и организаций:</a><br><br>
+                <div class="b-flex">
+                    <a class="red-colored-indented">•</a>
+                    <div class="text-indented">запросы социально-правового характера – запросы, связанные с социальной защитой граждан, предусматривающей их пенсионное обеспечение, а также получение льгот и компенсаций в соответствии с законодательством Российской Федерации и международными обязательствами Российской Федерации;</div>
+                </div>
+                <div class="b-flex">
+                    <a class="red-colored-indented">•</a>
+                    <div class="text-indented">тематические запросы – запросы о предоставлении архивной информации по определенной проблеме, теме, событию, факту;</div>
+                </div>
+                <div class="b-flex">
+                    <a class="red-colored-indented">•</a>
+                    <div class="text-indented">запросы о рассекречивании архивных документов, являющихся носителями сведений, составляющих государственную тайну;</div>
+                </div>
+                <div class="b-flex">
+                    <a class="red-colored-indented">•</a>
+                    <div class="text-indented">заказы на копирование архивных документов.</div>
+                </div>
+
+            </div>
+            <div class="b-indent_s_20"></div>
+            <div class="article-title-underlined">
+                <a>Условия исполнения</a>
+            </div>
+            <div class="article-text-request">
+                <a>Запросы социально-правового характера и запросы о рассекречивании архивных документов исполняются на безвозмездной основе, заказы на копирование архивных документов, а также тематические запросы граждан и организаций исполняются на возмездной и безвозмездной основе, в соответствии с действующими «Правилами организации хранения, комплектования, учета и использования документов Архивного фонда Российской Федерации и других архивных документов в государственных и муниципальных архивах, музеях и библиотеках, организациях Российской академии наук».</a><br><br>
+                <a>Для расчета стоимости платных услуг, в том числе копирования архивных документов, применяется действующий «Прейскурант платных услуг, оказываемых федеральным казенным учреждением “Российский государственный архив литературы и искусства”».</a><br><br>
+                <a>Исполнение тематических запросов и заказов на копирование архивных документов осуществляется на основании договора.</a><br><br>
+                <a>Для регистрации запроса он должен быть составлен в корректной форме и содержать всю необходимую для его исполнения информацию. Заказы на копирование должны содержать архивные шифры дел, копии которых необходимы пользователю, а также сведения о желаемом качестве копирования (тип файлов и разрешение; стандартный формат копирование - .jpeg, 300 dpi). Изготовленные цифровые копии архивных документов направляются на электронную почту заявителя.</a>
+            </div>
+            <div class="b-indent_s_20"></div>
+            <div class="article-title-underlined">
+                <a>Формы исполнения запросов</a>
+            </div>
+            <div class="article-text-request">
+                <a>Архив оформляет ответы на запросы в виде архивной справки, архивной выписки, архивной копии, информационного письма. Также ответ на запрос может быть оформлен в виде систематизированного перечня заголовков архивных документов или единиц хранения по определенной теме с указанием их дат и архивных шифров и др.</a>
+            </div>
+            <div class="b-indent_s_20"></div>
+            <div class="article-title-underlined">
+                <a>Как подать запрос или сделать заказ на копирование документов</a>
+            </div>
+            <div class="article-text-request">
+                <a>Оформить запрос можно через личный кабинет на сайте архива, отправить его почтой (125212, г. Москва, ул. Выборгская, д. 3, корп. 2) или по e-mail (</a><a class="bold-border-dashed">rgali@rgali.ru</a>), а также подать при личном обращении в архив.
+            </div>
+        </div>
+        <div class="b-indent_s_35"></div>
+        <div id="prefooter"></div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</main>
+
+</body>
+</html>

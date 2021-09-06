@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - требования</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/storage-unit-list.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div class="content">
+            <div class="b-indent_s_20"></div>
+            <div class="article-title">
+                <a>Личный кабинет</a>
+            </div>
+            <div class="b-indent_s_30"></div>
+            <div class="tabs tabs-color">
+                <input type="radio" name="tab-btn" id="tab-btn-1" value="" disabled="">
+                <label onclick="location.href='/cabinet/user-info'" for="tab-btn-1">Данные пользователя</label>
+                <input type="radio" name="tab-btn" id="tab-btn-2" value="" disabled="">
+                <label onclick="location.href='/cabinet/change-password'" for="tab-btn-2">Смена пароля</label>
+                <input type="radio" name="tab-btn" id="tab-btn-3" value="" checked="">
+                <label onclick="location.href='/cabinet/requirements'" for="tab-btn-3">Требования</label>
+                <div id="content-1"></div>
+                <div id="content-2"></div>
+                <div id="content-3">
+                    <div class="b-indent_s_10"></div>
+                    <div>
+                        <a class="b-button-rgali" onclick="location.href='/cabinet/requirements-new'">
+                            <div class="b-button__text">Новое требование</div>
+                        </a>
+                        <a class="b-button-rgali" style="margin-left: 15px;" onclick="location.href='/cabinet/recycle'">
+                            <div class="b-button__text" th:text="'Создать из корзины (' + ${countInRecycle} + ')'"></div>
+                        </a>
+                    </div>
+                    <div class="b-indent_s_20"></div>
+                    <div class="b-flex">
+                        <div class="b-flex">
+                            <div style="width: 100px;"><a class="filter-text">Выводить по:</a></div>
+                            <select id="pagesPerPage" class="b-form__select_bold"
+                                    style="height: 28px; width: 70px; margin-top: -5px;">
+                                <option th:each="option : ${selectPage.options}"
+                                        th:value="${option.value}"
+                                        th:selected="${option.selected}"
+                                        th:text="${option.text}">20
+                                </option>
+                            </select>
+                        </div>
+                        <div class="filter-sort">
+                            <a class="filter-text">Сортировать: </a>
+                            <select id="selectWithSort" class="b-form__select_bold"
+                                    style="height: 28px; width: 200px; margin-top: -5px;">
+                                <option th:each="option : ${selectWithSort.options}"
+                                        th:value="${option.value}"
+                                        th:selected="${option.selected}"
+                                        th:text="${option.text}">номер фонда
+                                </option>
+                            </select>
+
+                        </div>
+                        <div th:if="${model.page.totalPages > 0}">
+                            <a class="filter-text filter-text-all"
+                               th:text="'Всего требований: ' + ${ ((model.page.currentPage - 1) * model.page.rowsPerPage) + 1}  + ' - ' + ${(model.page.currentPage) * model.page.rowsPerPage} + ' из ' + ${model.page.totalRows} ">Всего
+                                фондов: 1-10 из 954</a>
+                        </div>
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                    <div class="b-table b-table_mod_border b-table-attrs-requirements-list">
+                        <div class="b-table__wrap">
+                            <table class="b-table__table" style="width: 1150px;">
+                                <thead class="b-table__head">
+                                <tr class="b-table__row">
+                                    <td class="b-table__cell" style="width:50px">
+                                        <p class="b-table__text">Номер требования</p>
+                                    </td>
+                                    <td class="b-table__cell" style="width:120px">
+                                        <p class="b-table__text">Архивный шифр</p>
+                                    </td>
+                                    <td class="b-table__cell" style="width:235px">
+                                        <p class="b-table__text">Заголовок ед.хр.</p>
+                                    </td>
+                                    <td class="b-table__cell" style="width:50px">
+                                        <p class="b-table__text">Дата подачи требования</p>
+                                    </td>
+                                    <td class="b-table__cell" style="width:50px">
+                                        <p class="b-table__text">Требуемая дата выдачи</p>
+                                    </td>
+                                    <td class="b-table__cell" style="width:175px">
+                                        <p class="b-table__text">Последнее состояние</p>
+                                    </td>
+                                    <td class="b-table__cell" style="width:175px">
+                                        <p class="b-table__text">Количество листов</p>
+                                    </td>
+                                    <td class="b-table__cell" style="width:175px">
+                                        <p class="b-table__text">Поток</p>
+                                    </td>
+                                </tr>
+                                </thead>
+                                <tbody class="b-table__body">
+                                <tr th:each="ask : ${model.asks}" class="b-table__row">
+                                    <td class="b-table__cell b-table__cell_align_center">
+                                        <p class="b-table__text"><a th:href="'/cabinet/requirements/' + ${ask.id}"  class="blue-linked" th:text="${ask.askNum}">106027</a></p>
+                                    </td>
+                                    <td class="b-table__cell">
+                                        <p class="b-table__text" th:text="${ask.cypher}">Ф.613 оп.10 ед.хр.6827</p>
+                                    </td>
+                                    <td class="b-table__cell">
+                                        <p class="b-table__text" th:text="${ask.headerDoc}">Письмо Т.С. Аксакова к жене</p>
+                                    </td>
+                                    <td class="b-table__cell b-table__cell_align_center">
+                                        <p class="b-table__text" th:text="${ask.requestDate}">12.07.2021</p>
+                                    </td>
+                                    <td class="b-table__cell b-table__cell_align_center">
+                                        <p class="b-table__text" th:text="${ask.askDate}">07.07.2021</p>
+                                    </td>
+                                    <td class="b-table__cell b-table__cell_align_center">
+                                        <p class="b-table__text" th:text="${ask.askStateName}">Требование создано исследователем</p>
+                                    </td>
+                                    <td class="b-table__cell b-table__cell_align_center">
+                                        <p class="b-table__text" th:text="${ask.numLists}">Требование создано исследователем</p>
+                                    </td>
+                                    <td class="b-table__cell b-table__cell_align_center">
+                                        <p class="b-table__text" th:text="${ask.warehouseName}">Требование создано исследователем</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="paginator-requirement-list">
+                        <div class="paginator">
+                            <div class="b-pagination">
+                                <div class="b-pagination__body"></a>
+                                    <a class="b-pagination__prev"></a>
+                                    <span class="b-pagination__title">Страницы:</span>
+                                    <th:block
+                                            th:each="i: ${#numbers.sequence(model.page.firstVisiblePage, model.page.lastVisiblePage) }">
+                                        <th:block th:if="${model.page.currentPage != i}">
+                                            <a th:text="${i}" class="b-pagination__item">2</a>
+                                        </th:block>
+                                        <th:block th:if="${model.page.currentPage == i}">
+                                            <a class="b-pagination__item b-pagination__item_state_active"
+                                               th:text="${model.page.currentPage}">1</a>
+                                        </th:block>
+                                    </th:block>
+
+                                    <div class="b-pagination__item2">&hellip;</div>
+
+                                    <a class="b-pagination__item" th:text="${model.page.totalPages}">96</a>
+
+                                    <span class="b-pagination__count" th:text="'Записей: ' + ${model.page.totalRows}">Записей: 954</span>
+
+                                    <a class="b-pagination__next"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="b-indent_s_10"></div>
+    </div>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+
+          $("#pagesPerPage").change(function() {
+             $("#currentPage").html("1");
+             changePage()
+          });
+
+          $("#selectWithSort").change(function() {
+             $("#currentPage").html("1");
+             changePage()
+          });
+
+          $(".b-pagination__item").click(function() {
+             $("#currentPage").html($(this).text());
+             changePage()
+          });
+
+          $(".b-pagination__prev").click(function() {
+             $("#currentPage").html($("#previousPage").text());
+             changePage()
+          });
+
+          $(".b-pagination__next").click(function() {
+             $("#currentPage").html($("#nextPage").text());
+             changePage()
+          });
+    });
+
+    function changePage() {
+        var link = '/cabinet/requirements?fieldForSort=' +  $("#selectWithSort").val() + '&elementsOnPage=' + $("#pagesPerPage").val() + '&currentPage=' + $("#currentPage").text()
+        location.href = link
+    }
+    </script>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <meta charset="utf-8">
+    <title>РГАЛИ - архив новостей</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link th:href="@{/css/storage-unit-list.css}" rel="stylesheet">
+    <link th:href="@{/css/fund-card.css}" rel="stylesheet">
+    <meta name="language" content="ru">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <style>
+        .b-content-inf-news1 {
+            width: 950px;
+            margin-left: 350px;
+            margin-top: -480px;
+        }
+
+        .b-content-inf-news-inf {
+            padding-right: 10px;
+        }
+
+        .news-text-centered {
+            font: bold 16px PlayfairDisplay;
+            color: #212121;
+            text-align: center;
+        }
+
+        .news-text-actual {
+            font: bold 16px PlayfairDisplay;
+            color: #212121;
+            text-align: right;
+            padding-right: 25px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<main class="content" layout:fragment="content">
+    <div class="content">
+        <div th:replace="fragments/menu :: menu"></div>
+
+        <div class="b-flex b-content-inf-news1" style="min-height: 650px">
+            <div class="b-content-inf-news-inf">
+                <div style="display: flex; flex-direction: column; padding-top: 20px; padding-bottom: 20px;">
+                    <a class="news-text-centered">АРХИВ НОВОСТЕЙ</a>
+                    <div class="news-text-actual"><a class="news-item__article blue-linked" style="cursor: pointer;"
+                                                     href="/">Актуальные</a></div>
+                    <div class="b-indent_s_10"></div>
+                    <div class="b-flex b-flex_valign_center">
+                        <div class="b-form">
+                            <label class="b-form__label" style="width:22px; margin-left: 10px">Год</label>
+                            <select id="years" class="b-form__select_bold"
+                                    style="width: 100px; height: 28px; margin-left: 15px;">
+                                <option th:each="option : ${years.options}"
+                                        th:value="${option.value}"
+                                        th:selected="${option.selected}"
+                                        th:text="${option.text}">20
+                                </option>
+                            </select>
+                        </div>
+                        <div class="b-form">
+                            <label class="b-form__label " style="width:40px; margin-left: 15px">Месяц</label>
+                            <select id="months" class="b-form__select_bold"
+                                    style="width: 120px; height: 28px; margin-left: 15px;">
+                                <option th:each="option : ${months.options}"
+                                        th:value="${option.value}"
+                                        th:selected="${option.selected}"
+                                        th:text="${option.text}">20
+                                </option>
+                            </select>
+                        </div>
+                        <div class="b-form">
+                            <label class="b-form__label " style="width:60px; margin-left: 15px">Тематика</label>
+                            <select id="types" class="b-form__select_bold"
+                                    style="width: 170px; height: 28px; margin-left: 15px;">
+                                <option th:each="option : ${types.options}"
+                                        th:value="${option.value}"
+                                        th:selected="${option.selected}"
+                                        th:text="${option.text}">20
+                                </option>
+                            </select>
+                        </div>
+                        <div class="b-flex" style="margin-left: 10px;">
+                            <a class="b-button-rgali-search" onclick="changePage()">
+                                <div class="b-button__icon b-button__icon_mod_search_rgali"></div>
+                                <div class="b-button__text">Поиск</div>
+                            </a>
+                            <div class="b-indent_s_10"></div>
+                        </div>
+                    </div>
+                    <div class="b-indent_s_10"></div>
+                </div>
+                <div class="b-flex b-flex_valign_center b-flex b-flex_valign_center news-body3">
+
+                    <div class="news-arch-item">
+                        <th:block th:each="newItem : ${news}">
+                            <div class="news-item">
+                                <div class="calendar-days">
+                                    <a class="calendar-day-text" th:text="${newItem.day}">30<br></a>
+
+                                    <a class="calendar-text" th:text="${newItem.month}">СЕНТЯБРЯ<br></a>
+                                    <a class="calendar-text" th:text="${newItem.year}">2021<br></a>
+                                </div>
+                                <img width="210" height="210" class="news_img"
+                                     th:src="'/image/' + ${newItem.imageId} + '/s'"/>
+                                <div class="news_description">
+                                    <a th:utext="${newItem.title}" th:href="'/news-new/' + ${newItem.id}"
+                                       class="news-item__article blue-linked">Юбилейные торжества РГАЛИ в
+                                        связи с 80-летием архива<br></a>
+                                    <div class="b-indent_s_15"></div>
+                                    <a th:utext="${newItem.shortInfo}">
+                                        Торжественный вечер, посвященный 80-летию Российского государственного архива
+                                        литературы и
+                                        искусства, прошел 30 сентября в зале Культурного центра «Минин-Хор». Под своды
+                                        старинного
+                                        особняка конца XIX века…<br>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="b-indent_s_15"></div>
+                            <div class="b-indent_s_20"></div>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="b-indent_s_20"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="prefooter"></div>
+    <script type="text/javascript">
+        function changePage() {
+            var link = '/news-arch?year=' + $("#years").val() + '&month=' + $("#months").val() + '&type=' + $("#types").val()
+            location.href = link
+        }
+    </script>
+
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+
+</main>
+
+</body>
+</html>

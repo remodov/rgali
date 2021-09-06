@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="menu">
+    <div class="b-indent_s_45"></div>
+    <div class="content__wrap">
+        <div class="content__body">
+            <div class="content__body" id="left-menu-item-0" onclick="dropdownCatalogMenu()">
+                <div class="content__item_title_search">
+                    <a class="content__item_text" style="margin-left: 30px;">Электронный каталог</a>
+                    <a style="margin-left:60px; margin-top:4px; width:35px; height: 35px;" class="b-button__icon_mod_search_rgali_menu"></a>
+                </div>
+            </div>
+            <div>
+                <div id="dropdown-menu-catalog" class="dropdown-content-menu">
+                    <div class="content__item_submenu" onclick="location.href = '/search'">
+                        <a style="text-decoration:none;" class="content__item_text">Поиск</a>
+                    </div>
+                    <div class="content__item_submenu" onclick="location.href = '/working'">
+                        <a style="text-decoration:none;" class="content__item_text">Тематический каталог</a>
+                    </div>
+                    <div class="content__item_submenu" onclick="location.href = '/working'">
+                        <a style="text-decoration:none;" class="content__item_text">Географический указатель</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="b-indent_s_5"></div>
+    <div class="content__wrap">
+        <div class="content__body">
+            <div class="content__item" id="left-menu-item-1" onclick="location.href='/fund'">
+                <span style="text-decoration:none;" class="content__item_text" id="all-text">Список фондов</span>
+            </div>
+        </div>
+    </div>
+    <div class="b-indent_s_5"></div>
+    <div class="content__wrap">
+        <div class="content__body">
+            <div class="content__item" id="left-menu-item-2" onclick="dropdownGuideMenu()">
+                <a style="text-decoration:none;" class="content__item_text">Путеводитель</a>
+            </div>
+            <div>
+                <div id="dropdown-menu-guide" class="dropdown-content-menu">
+                    <div class="content__item_submenu" onclick="location.href='/fund?fundType=personal-funds'">
+                        <span style="text-decoration:none;" id="personal-funds-text" class="content__item_text">Фонды личного<br>происхождения</span>
+                    </div>
+                    <div class="content__item_submenu" onclick="location.href='/fund?fundType=institutions-funds'">
+                        <span style="text-decoration:none;" class="content__item_text" id="institutions-funds-text">Фонды государственных<br>учреждений и творческих<br>организаций</span>
+                    </div>
+                    <div class="content__item_submenu" onclick="location.href='/fund?fundType=collections'">
+                        <span style="text-decoration:none;" class="content__item_text" id="collections-text">Коллекции и<br>собрания</span>
+                    </div>
+                    <div class="content__item_submenu" onclick="location.href='/fund?fundType=united-funds'">
+                        <span style="text-decoration:none;" class="content__item_text" id="united-funds-text">Объединенные архивные<br>фонды</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="b-indent_s_5"></div>
+    <div class="content__wrap">
+        <div class="content__body">
+            <div class="content__item" id="left-menu-item-3" onclick="location.href = '/unique-documents'">
+                <a style="text-decoration:none;" class="content__item_text">Уникальные документы</a>
+            </div>
+        </div>
+    </div>
+    <div class="b-indent_s_5"></div>
+    <div class="content__wrap">
+        <div class="content__body">
+            <div class="content__item" id="left-menu-item-4" onclick="location.href = '/memorial'">
+                <a style="text-decoration:none;" class="content__item_text">Мемориальные предметы</a>
+            </div>
+        </div>
+    </div>
+    <div class="b-indent_s_5"></div>
+    <div class="content__wrap">
+        <div class="content__body">
+            <div class="content__item" id="left-menu-item-5" onclick="dropdownLibraryMenu()">
+                <a style="text-decoration:none;" class="content__item_text">Научная библиотека</a>
+            </div>
+            <div>
+                <div id="dropdown-menu-library" class="dropdown-content-menu-library">
+                    <div class="content__item_submenu" onclick="location.href = '/books-autograph'">
+                        <a style="text-decoration:none;" class="content__item_text">Книги с автографами</a>
+                    </div>
+                    <div class="content__item_submenu" id="left-menu-item-editions"
+                         onclick="dropdownEditionsMenu()">
+                        <a style="text-decoration:none;" class="content__item_text">Издания РГАЛИ</a>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="dropdown-submenu-collection" class="dropdown-content-submenu-library">
+                    <div class="content__item_submenu" onclick="location.href = '/album-documents'">
+                        <a style="text-decoration:none;" class="content__item_text">Сборники документов<br>и альбомы</a>
+                    </div>
+                    <div class="content__item_submenu" onclick="location.href = '/past'">
+                        <a style="text-decoration:none;" class="content__item_text">Встречи с прошлым</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
