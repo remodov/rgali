@@ -49,7 +49,7 @@
             <label class="label-attrs-registration-new-normal" style="width: 140px;">Страна<a class="red-colored">*</a></label>
             <input class="b-form__input-registration" required th:field="*{country}"  style="margin-left: 30px; width: 180px;">
             <label class="label-attrs-registration-new-normal" style="width: 90px; margin-left: 10px;">Телефон<a class="red-colored">*</a></label>
-            <input class="b-form__input-registration" minlength="11" maxlength="11" type="tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="81111111111" required pattern="[8]{1}[0-9]{10}" th:field="*{phone}"   style="width: 180px;">
+            <input class="b-form__input-registration" minlength="11" maxlength="20" type="tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="+71111111111" required th:field="*{phone}"   style="width: 180px;">
             <label class="label-attrs-registration-new-normal" style="width: 90px; margin-left: 10px;">Email<a class="red-colored">*</a></label>
             <input class="b-form__input-registration" th:field="*{email}" type="email" required style="width: 180px;">
           </div>
@@ -189,6 +189,22 @@
          showHidePassword('#password','#togglePassword')
          showHidePassword('#confirmPassword','#toggleConfirmPassword')
 
+        </script>
+
+        <script>
+            const tel = $('[type="tel"]');
+
+            tel.keydown(function (e) {
+              if (!tel.val().startsWith('+'))
+                tel.val().length == 0 ? tel.val('+7' + tel.val()) : tel.val('+' + tel.val());
+            })
+            .keyup(function () {
+              tel.val('+' + tel.val().split("+").pop());
+              if (!tel.val().startsWith('+')) tel.val('+' + tel.val());
+            })
+            .change(function() {
+              if (tel.val() === '+') tel.val('');
+            });
         </script>
 
   <script type="text/javascript" th:src="@{/js/main.js}"></script>
