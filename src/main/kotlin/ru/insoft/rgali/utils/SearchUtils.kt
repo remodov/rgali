@@ -81,10 +81,16 @@ object SearchUtils {
         }
 
         if (searchForm.fondName?.isNotBlank() == true) {
-            whereSection.append(" and upper(name) like upper('%${searchForm.fondName?.trim()}%') ")
+            if (searchForm.personId?.isNotBlank() == true) {
+                whereSection.append(" and to_tsvector('russian', idperson::text) @@ plainto_tsquery('russian', '${searchForm.personId?.trim()}') ")
+//                        whereSection.append(" and upper(idperson_auth) @@ plainto_tsquery('russian', '${searchForm.personId}') ")
+            } else {
+                whereSection.append(" and upper(name) like upper('%${searchForm.fondName?.trim()}%') ")
+            }
         }
 
         if ((!searchForm.simpleSearch) && searchForm.personaName?.isNotBlank() == true) {
+
             whereSection.append(" and upper(fioperson) like upper('%${searchForm.personaName?.trim()}%') ")
         }
 

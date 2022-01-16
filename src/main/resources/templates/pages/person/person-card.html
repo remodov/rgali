@@ -59,13 +59,13 @@
                             <p class="b-table__text" th:text="${model.fio}">Чернышевский Николай Гаврилович</p>
                         </td>
                         <td class="b-table__cell b-table__cell_align_center">
-                            <p class="b-table__text"><a class="blue-linked"  href="#" onclick="fundSearch()"  th:text="${searchResultCounts.totalUnits}">0</a></p>
+                            <p class="b-table__text"><a class="blue-linked"  href="#" th:id="${model.id}" onclick="setSelectedPerson(this.id); fundSearch('1');"  th:text="${searchResultCounts.totalUnits}">0</a></p>
                         </td>
                         <td class="b-table__cell b-table__cell_align_center">
-                            <p class="b-table__text blue-linked"><a class="blue-linked" href="#" onclick="storageUnitSearch(2)" th:text="${searchResultCounts.totalPersons}">0</a></p>
+                            <p class="b-table__text blue-linked"><a class="blue-linked" href="#" th:id="${model.id}" onclick="setSelectedPerson(this.id); storageUnitSearch(2)" th:text="${searchResultCounts.totalPersons}">0</a></p>
                         </td>
                         <td class="b-table__cell b-table__cell_align_center">
-                            <p class="b-table__text blue-linked"><a class="blue-linked" href="#" onclick="storageUnitSearch(1)" th:text="${searchResultCounts.totalDeals}">0</a></p>
+                            <p class="b-table__text blue-linked"><a class="blue-linked" href="#" th:id="${model.id}" onclick="setSelectedPerson(this.id); storageUnitSearch(1)" th:text="${searchResultCounts.totalDeals}">0</a></p>
                         </td>
                         <td class="b-table__cell b-table__cell_align_center">
                             <p class="b-table__text"></p><a class="context-menu__toggle"></a>
@@ -104,6 +104,9 @@
             <input type="text"  th:field="*{yearDocumentTo}"/>
             <input type="text" id="searchFormPersonType"  th:field="*{personType}"/>
             <input type="text" id="searchFondType"  th:field="*{fondType}"/>
+            <input type="text" id="searchPersonId"  th:field="*{personId}"/>
+            <input type="text" id="isSimpleSearchFullForm" th:field="*{simpleSearch}"/>
+
         </form>
 
         <div class="b-indent_s_40"></div>
@@ -113,36 +116,63 @@
 
     <script type="text/javascript">
         function setSelectedPerson(elem) {
-             $('#searchPersonaName').val(elem)
+            initState()
+            $('#searchPersonId').val(elem)
         }
-
         function storageUnitSearch(personType) {
-             $('#currentPageField').val("1")
-             $('#elementsOnPageField').val("20")
+            initState()
+            $('#currentPageField').val("1")
+            $('#elementsOnPageField').val("20")
+            $('#fieldForSortField').val("")
 
-             if (personType !== undefined) {
-                 $('#searchFormPersonType').val(personType)
-                 $('#organizationFondName').val("")
-                 $('#organizationNameFormPersonType').val("")
-             }
-             $('#fieldForSortField').val("")
+            $('#searchFormPersonType').val(personType)
+
+            if (personType !== undefined) {
+                $('#searchFormOrganizationName').val("")
+                $('#searchFormFondName').val("")
+            } else {
+                $('#searchFormOrganizationName').val("")
+                $('#searchPersonaName').val("")
+            }
+
+            $('#isSimpleSearchFullForm').val("false")
 
             $('#searchForm').attr('action', "/storage-unit/search").submit();
         }
 
-        function fundSearch() {
+        function fundSearch(fondType) {
+            initState()
             $('#currentPageField').val("1")
             $('#elementsOnPageField').val("20")
-            $('#organizationFondName').val("")
-            $('#organizationNameFormPersonType').val("")
             $('#fieldForSortField').val("")
-            $('#searchFondType').val("1")
+            $('#isSimpleSearchFullForm').val("false")
+
+            if ($('#searchFormFondName').val() === "") {
+                $('#searchFormFondName').val($('#searchPersonaName').val())
+            }
+
+            if (fondType !== undefined ) {
+                $('#searchFondType').val(fondType)
+                $('#searchFormOrganizationName').val("")
+                $('#searchPersonaName').val("")
+            } else {
+                $('#searchFondType').val(fondType)
+                $('#searchFormOrganizationName').val("")
+                $('#searchPersonaName').val("")
+            }
 
             $('#searchForm').attr('action', "/fund/search").submit();
         }
 
         function personSearch() {
             $('#searchForm').attr('action', "/person/search").submit();
+        }
+
+        function initState() {
+            var url = new URL(window.location.href);
+            $('#searchFormOrganizationName').val(url.searchParams.get("organizationName"))
+            $('#searchFormFondName').val(url.searchParams.get("fondName"))
+            $('#searchPersonaName').val(url.searchParams.get("personaName"))
         }
     </script>
 </main>
