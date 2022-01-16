@@ -151,7 +151,7 @@
                     <div class="b-indent_s_15"></div>
                     <div class="b-form">
                         <label class="b-form__label_align_right label-attrs-feedback">Телефон</label>
-                        <input required class="input-attrs-feedback" minlength="11" maxlength="11" type="tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="81111111111" pattern="[8]{1}[0-9]{10}" th:field="*{phone}">
+                        <input required class="input-attrs-feedback" minlength="11" maxlength="20" type="tel" onclick="phoneMask()" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="+71111111111" th:field="*{phone}">
                         <label class="label-attrs-feedback-red">*</label>
                     </div>
                     <div class="b-indent_s_15"></div>
