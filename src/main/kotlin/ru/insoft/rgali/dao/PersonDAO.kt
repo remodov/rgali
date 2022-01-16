@@ -61,7 +61,8 @@ class PersonDAO(
                         personSynonym = resultSet.getString("person_synonym"),
                         years = resultSet.getString("years"),
                         personActivity = resultSet.getString("person_activity"),
-                        annotation = resultSet.getString("annotation")
+                        annotation = resultSet.getString("annotation"),
+                        id = id
                     )
                 },
                 id

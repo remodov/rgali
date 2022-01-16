@@ -32,7 +32,7 @@
                 <li th:if="${searchForm.opisNumber} != ''" th:text="'№ описи - ' + ${searchForm.opisNumber}"></li>
                 <li th:if="${searchForm.storageUnitNumber} != ''"
                     th:text="'№ единицы хранения - ' + ${searchForm.storageUnitNumber}"></li>
-                <li th:if="${searchForm.fondName} != ''" th:text="'Название - ' + ${searchForm.fondName}"></li>
+                <li th:if="${searchForm.fondName} != ''" th:text="'Название единицы хранения - ' + ${searchForm.fondName}"></li>
                 <li th:if="${searchForm.personaName} != ''" th:text="'Персона - ' + ${searchForm.personaName}"></li>
                 <li th:if="${searchForm.organizationName} != ''"
                     th:text="'Организация - ' + ${searchForm.organizationName}"></li>
@@ -110,7 +110,7 @@
 
     <div id="prefooter"></div>
 
-    <form style="display:none" id="searchForm" action="#" th:action="@{/search}" th:object="${searchForm}" method="get">
+    <form  id="searchForm" action="#" th:action="@{/search}" th:object="${searchForm}" method="get">
         <input type="text" id="searchFormFundNumber" th:field="*{fundNumber}"/>
         <input type="text" id="searchFormOpisNumber" th:field="*{opisNumber}"/>
         <input type="text" id="searchFormStorageUnitNumber" th:field="*{storageUnitNumber}"/>
@@ -122,16 +122,19 @@
         <input type="text" id="searchFormPersonType"  th:field="*{personType}"/>
         <input type="text" id="searchFondType"  th:field="*{fondType}"/>
         <input type="text" id="searchPersonId"  th:field="*{personId}"/>
+        <input type="text" id="isSimpleSearchFullForm" th:field="*{simpleSearch}"/>
     </form>
 
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 
     <script type="text/javascript">
         function setSelectedPerson(elem) {
+            initState()
              $('#searchPersonId').val(elem)
         }
 
         function storageUnitSearch(personType) {
+             initState()
              $('#currentPageField').val("1")
              $('#elementsOnPageField').val("20")
              $('#fieldForSortField').val("")
@@ -139,40 +142,58 @@
              $('#searchFormPersonType').val(personType)
 
              if (personType !== undefined) {
-                 $('#organizationName').val(personType)
                  $('#searchFormOrganizationName').val("")
                  $('#searchFormFondName').val("")
              } else {
                  $('#searchFormOrganizationName').val("")
-                 // $('#searchPersonaName').val("")
+                 $('#searchPersonaName').val("")
              }
+
+            $('#isSimpleSearchFullForm').val("false")
 
             $('#searchForm').attr('action', "/storage-unit/search").submit();
         }
 
         function fundSearch(fondType) {
+            initState()
             $('#currentPageField').val("1")
             $('#elementsOnPageField').val("20")
             $('#fieldForSortField').val("")
+            $('#isSimpleSearchFullForm').val("false")
+
+            if ($('#searchFormFondName').val() === "") {
+                $('#searchFormFondName').val($('#searchPersonaName').val())
+            }
 
             if (fondType !== undefined ) {
                 $('#searchFondType').val(fondType)
-            } else {
                 $('#searchFormOrganizationName').val("")
-                // $('#searchPersonaName').val("")
+                $('#searchPersonaName').val("")
+            } else {
+                $('#searchFondType').val(fondType)
+                $('#searchFormOrganizationName').val("")
+                $('#searchPersonaName').val("")
             }
 
             $('#searchForm').attr('action', "/fund/search").submit();
         }
 
         function personSearch() {
+            initState()
             $('#searchForm').attr('action', "/person/search").submit();
         }
 
         function organizationSearch() {
+            initState()
             $('#searchForm').attr('action', "/organization/search").submit();
         }
 
+        function initState() {
+            var url = new URL(window.location.href);
+            $('#searchFormOrganizationName').val(url.searchParams.get("organizationName"))
+            $('#searchFormFondName').val(url.searchParams.get("fondName"))
+            $('#searchPersonaName').val(url.searchParams.get("personaName"))
+        }
     </script>
 
 </main>
