@@ -151,7 +151,7 @@
                     <div class="b-indent_s_15"></div>
                     <div class="b-form">
                         <label class="b-form__label_align_right label-attrs-feedback">Телефон</label>
-                        <input required class="input-attrs-feedback" minlength="11" maxlength="20" type="tel" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="+71111111111" th:field="*{phone}">
+                        <input required class="input-attrs-feedback" minlength="11" maxlength="20" type="tel" onclick="phoneMask()" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="+71111111111" th:field="*{phone}">
                         <label class="label-attrs-feedback-red">*</label>
                     </div>
                     <div class="b-indent_s_15"></div>
@@ -189,22 +189,6 @@
     <div class="b-indent_s_40"></div>
 
     <div id="prefooter"></div>
-
-    <script>
-        const tel = $('[type="tel"]');
-
-        tel.keydown(function (e) {
-            if (!tel.val().startsWith('+'))
-                tel.val().length == 0 ? tel.val('+7' + tel.val()) : tel.val('+' + tel.val());
-            })
-        .keyup(function () {
-            tel.val('+' + tel.val().split("+").pop());
-            if (!tel.val().startsWith('+')) tel.val('+' + tel.val());
-        })
-        .change(function() {
-            if (tel.val() === '+') tel.val('');
-        });
-    </script>
 
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </main>

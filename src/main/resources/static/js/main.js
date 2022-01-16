@@ -309,3 +309,20 @@ function commonPersonSearch() {
 function commonOrganizationSearch() {
    $('#searchForm').attr('action', "/organization/search").submit();
 }
+
+//маска для поля ввода номера телефона
+function phoneMask() {
+    const tel = $('[type="tel"]');
+
+    tel.keydown(function (e) {
+      if (!tel.val().startsWith('+'))
+        tel.val().length == 0 ? tel.val('+7' + tel.val()) : tel.val('+' + tel.val());
+    })
+    .keyup(function () {
+      tel.val('+' + tel.val().split("+").pop());
+      if (!tel.val().startsWith('+')) tel.val('+' + tel.val());
+    })
+    .change(function() {
+      if (tel.val() === '+') tel.val('');
+    });
+}
