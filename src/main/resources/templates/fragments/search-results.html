@@ -45,7 +45,7 @@
                         <p th:if="${searchResultCounts.totalDeals == 0}" class="b-table__text">0</p>
                     </td>
                     <td class="b-table__cell b-table__cell_align_center">
-                        <p class="b-table__text">0</p>
+                        <p class="b-table__text" th:text="${searchResultCounts.totalPagesSrc}">0</p>
                     </td>
                     <td class="b-table__cell b-table__cell_align_center">
                         <p th:if="${searchResultCounts.totalPersons > 0}" class="b-table__text"><a href="#" onclick="personSearch()"

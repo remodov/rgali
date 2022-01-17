@@ -130,9 +130,6 @@
                 <table class="b-table__table" style="width: 930px;">
                     <thead class="b-table__head">
                     <tr class="b-table__row">
-                        <td class="b-table__cell" style="width:50px">
-                            <p class="b-table__text">Номер ед.хр.</p>
-                        </td>
                         <td class="b-table__cell" style="width:90px">
                             <p class="b-table__text">Шифр</p>
                         </td>
@@ -152,9 +149,6 @@
                     </thead>
                     <tbody class="b-table__body">
                     <tr th:each="storageUnit : ${model.storageUnits}" class="b-table__row">
-                        <td class="b-table__cell b-table__cell_align_center">
-                            <p class="b-table__text" th:text="${storageUnit.number}"></p>
-                        </td>
                         <td class="b-table__cell b-table__cell_align_center">
                             <p class="b-table__text" th:text="${storageUnit.displayNumber}">ф. 10 оп. 1 ед. хр. 1</p>
                         </td>
