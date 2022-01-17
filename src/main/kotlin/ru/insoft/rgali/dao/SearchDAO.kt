@@ -21,7 +21,8 @@ class SearchDAO(private val jdbcTemplate: JdbcTemplate) {
                 totalUnits = calculateFonds(searchForm)?.toInt(),
                 totalDeals = calculateDeals(searchForm)?.toInt(),
                 totalOrganizations = calculateOrganizations(searchForm)?.toInt(),
-                totalPersons = calculatePersons(searchForm)?.toInt()
+                totalPersons = calculatePersons(searchForm)?.toInt(),
+                totalPagesSrc = calculatePagesSrc(searchForm)
             )
         } else {
             val calculatePersonDeals = calculatePersonStats(personId)
@@ -29,7 +30,8 @@ class SearchDAO(private val jdbcTemplate: JdbcTemplate) {
                 totalUnits = calculatePersonDeals?.fonds?.toInt(),
                 totalDeals = calculatePersonDeals?.deals?.toInt(),
                 totalOrganizations = calculateOrganizations(searchForm)?.toInt(),
-                totalPersons = calculatePersonDeals?.dealsAuth?.toInt()
+                totalPersons = calculatePersonDeals?.dealsAuth?.toInt(),
+                totalPagesSrc = calculatePagesSrc(searchForm)
             )
         }
     }
@@ -70,6 +72,36 @@ class SearchDAO(private val jdbcTemplate: JdbcTemplate) {
         return jdbcTemplate.queryForObject(SELECT_FOND_SEARCH + SearchUtils.createWhereSectionDeals(searchForm), String::class.java)
     }
 
+    fun calculatePagesSrc(searchForm: SearchForm): String? {
+        var query = ""
+
+        if (searchForm.personaName?.isBlank() == false) {
+            query += " and upper(fioperson) like upper('%" + searchForm.personaName + "%')"
+        }
+
+        if (searchForm.yearDocumentFrom?.isBlank() == false) {
+            query += " and start_date >='" + searchForm.yearDocumentFrom + "'"
+        }
+
+        if (searchForm.yearDocumentTo?.isBlank() == false) {
+            query += " and end_date <='" + searchForm.yearDocumentTo + "'"
+        }
+
+        if (searchForm.fundNumber?.isBlank() == false) {
+            query += " and fond_id ='" + searchForm.fundNumber + "'"
+        }
+
+        if (searchForm.fundNumber?.isBlank() == false) {
+            query += " and fond_id =" + searchForm.fundNumber
+        }
+
+        if (searchForm.organizationName?.isBlank() == false) {
+            query += " and name ='" + searchForm.organizationName + "'"
+        }
+
+        return jdbcTemplate.queryForObject(SELECT_PAGES_SRC + query, String::class.java)
+    }
+
     companion object {
         private const val SELECT_FOND_SEARCH = """ 
             select count(distinct fond_id) total
@@ -100,6 +132,13 @@ class SearchDAO(private val jdbcTemplate: JdbcTemplate) {
            from site.person_stat
            where person_id = ?
         """
+
+        private const val SELECT_PAGES_SRC = """
+            select coalesce(string_agg(pages_src,', '), '0') as res
+            from site.v_deal_search
+            where 1 = 1
+        """
+
     }
 }
 

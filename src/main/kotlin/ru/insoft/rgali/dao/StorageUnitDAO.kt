@@ -295,7 +295,7 @@ class StorageUnitDAO(
         const val DEAL_TITLE_COLUMN = "title"
         const val DEAL_DATE_SRC_COLUMN = "dates_src"
         const val DEAL_START_DATE_COLUMN = "start_date"
-        const val DEAL_PAGES_COLUMN = "pages"
+        const val DEAL_PAGES_COLUMN = "pages_src"
         const val DEAL_SYSTEM_PARTITION_NAME_COLUMN = "system_partition_name"
         const val DEAL_FOND_ID_COLUMN = "fond_id"
 
@@ -303,7 +303,7 @@ class StorageUnitDAO(
             """
                 select id,
                        title, 
-                       pages,
+                       pages_src,
                        disp_num_d,
                        num_d,
                        num_o,
@@ -343,7 +343,7 @@ class StorageUnitDAO(
                  ,DS.disp_num_d
                  ,DS.title
                  ,DS.dates_src
-                 ,DS.pages
+                 ,DS.pages_src
                  ,DP.full_name system_partition_name
                  ,DP.system_partition_id
                  ,DS.fond_id
@@ -373,7 +373,7 @@ class StorageUnitDAO(
                       ,vd.disp_num_d
                       ,vd.title
                       ,vd.dates_src
-                      ,vd.pages
+                      ,vd.pages_src
                 from v_deal_site vd
                 where %s
                 order by vd.%s  
@@ -387,7 +387,7 @@ class StorageUnitDAO(
                       ,vd.disp_num_d
                       ,vd.title
                       ,vd.dates_src
-                      ,vd.pages
+                      ,vd.pages_src
                 from v_deal_site vd
                 where vd.id in (
                     select deal_id 
