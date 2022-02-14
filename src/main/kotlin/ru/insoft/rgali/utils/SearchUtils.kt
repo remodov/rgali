@@ -90,7 +90,6 @@ object SearchUtils {
         }
 
         if ((!searchForm.simpleSearch) && searchForm.personaName?.isNotBlank() == true) {
-
             whereSection.append(" and upper(fioperson) like upper('%${searchForm.personaName?.trim()}%') ")
         }
 
@@ -108,6 +107,4 @@ object SearchUtils {
 
         return whereSection.toString()
     }
-
-
 }

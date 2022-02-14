@@ -82,8 +82,7 @@ class UserDAO(
     fun updatePassword(email: String, newPassword: String) =
         jdbcTemplate.update(
             UPDATE_CHANGE_PASSWORD,
-            BCryptPasswordEncoder().encode(newPassword), email
-        )
+            BCryptPasswordEncoder().encode(newPassword), email)
 
     fun updateUser(registrationForm: RegistrationForm) =
         with(registrationForm) {

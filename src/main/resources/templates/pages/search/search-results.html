@@ -32,7 +32,7 @@
                 <li th:if="${searchForm.fundNumber} != ''" th:text="'№ фонда - ' + ${searchForm.fundNumber}"></li>
                 <li th:if="${searchForm.opisNumber} != ''" th:text="'№ описи - ' + ${searchForm.opisNumber}"></li>
                 <li th:if="${searchForm.storageUnitNumber} != ''" th:text="'№ единицы хранения - ' + ${searchForm.storageUnitNumber}"></li>
-                <li th:if="${searchForm.fondName} != ''" th:text="'Название единицы хранения - ' + ${searchForm.fondName}"></li>
+                <li th:if="${searchForm.fondName} != ''" th:text="'Название - ' + ${searchForm.fondName}"></li>
                 <li th:if="${searchForm.personaName} != ''" th:text="'Персона - ' + ${searchForm.personaName}"></li>
                 <li th:if="${searchForm.organizationName} != ''" th:text="'Организация - ' + ${searchForm.organizationName}"></li>
                 <li th:if="${searchForm.yearDocumentFrom} != ''" th:text="'Год с - ' + ${searchForm.yearDocumentFrom}"></li>
@@ -49,6 +49,7 @@
         }
 
         function fundSearch() {
+            $('#searchFondType').val('1')
             $('#searchForm').attr('action', "/fund/search").submit();
         }
 
@@ -57,6 +58,7 @@
         }
 
         function organizationSearch() {
+
             $('#searchForm').attr('action', "/organization/search").submit();
         }
     </script>
@@ -72,6 +74,7 @@
            <input type="text"  th:field="*{yearDocumentTo}"/>
            <input type="text"  th:field="*{simpleSearch}"/>
            <input type="text" id="searchPersonId"  th:field="*{personId}"/>
+           <input type="text" id="searchFondType"  th:field="*{fondType}"/>
     </form>
 
     <script type="text/javascript" th:src="@{/js/main.js}"></script>

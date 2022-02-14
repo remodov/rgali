@@ -236,7 +236,6 @@ class CabinetController(
         model.addAttribute("researchTheme", researchTheme)
         model.addAttribute("goal", goal)
 
-
         model.addAttribute(
             "askForm", AskEntity(
                 requestDate = LocalDate.now().format(dateFormat),

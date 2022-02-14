@@ -27,8 +27,8 @@
         </rollingPolicy>
     </appender>
 
-    <!-- LOG everything at INFO level -->
-    <root level="DEBUG">
+    <!-- LOG everything at INFO level  -logging.config=logback-spring.xml-->
+    <root level="INFO">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>

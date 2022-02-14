@@ -67,13 +67,13 @@ class SearchDAO(private val jdbcTemplate: JdbcTemplate) {
     }
 
     fun calculateFonds(searchForm: SearchForm): String? {
-        return jdbcTemplate.queryForObject(SELECT_FOND_SEARCH + SearchUtils.createWhereSectionDeals(searchForm), String::class.java)
+        return jdbcTemplate.queryForObject(SELECT_FOND_SEARCH + SearchUtils.createWhereSectionFonds(searchForm), String::class.java)
     }
 
     companion object {
         private const val SELECT_FOND_SEARCH = """ 
-            select count(distinct fond_id) total
-            from site.v_deal_search
+            select count(1) total
+            from site.v_fond_search
             where 1 = 1
             """
 

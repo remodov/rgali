@@ -18,7 +18,7 @@ class DateService(
     private val holidayDAO: HolidayDAO
 ) {
 
-    fun getAskDate(askDate: LocalDate, defaultShiftDate: Long = 3): LocalDate {
+    fun getAskDate(askDate: LocalDate, defaultShiftDate: Long = 4): LocalDate {
         var shiftDays = defaultShiftDate
 
         var noHolidays = shiftDays + 1
